@@ -33,7 +33,30 @@ We prioritize an evidence-first approach, generating robust synthetic data and s
 ## Setup Instructions
 1. Clone the repository.
 2. Ensure you have Python 3 installed.
-3. Run the chaos simulation script to generate synthetic cases:
+3. Install the minimal requirements:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Run the chaos simulation script to generate synthetic cases:
    ```bash
    python evidence/run_chaos.py --cases 50 --fail-rate 0.3 --seed 42
    ```
+
+### Running the Mock Banking APIs
+
+Start the Core Banking API (simulates the victim's bank):
+```bash
+python -m uvicorn mock_services.core_banking_api.main:app --reload --port 8010
+```
+
+Start the Receiver Bank API (simulates the receiving bank):
+```bash
+python -m uvicorn mock_services.receiver_bank_api.main:app --reload --port 8020
+```
+
+### Running the Smoke Tests
+
+With both APIs running, open a new terminal and run:
+```bash
+python scripts/smoke_test_mock_apis.py
+```
