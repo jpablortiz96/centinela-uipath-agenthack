@@ -9,7 +9,7 @@ CENTINELA leverages the following UiPath components to orchestrate the fraud dis
    - Used to quickly assemble the Intake and Evidence agents, connecting them to predefined AI skills.
 
 3. **Coded Agent**
-   - Deployed for complex logic within the Fraud Investigator, allowing for advanced custom error handling and integration with the chaos simulator.
+   - Deployed for complex logic within the Fraud Investigator Agent (implemented as a Python FastAPI service). It calculates deterministic risk, recommends actions, and integrates with the chaos simulator. It is intended to be orchestrated by Maestro Case.
 
 4. **API Workflows**
    - Handles the communication with our mock banking microservices (Core Banking API, Receiver Bank API).

@@ -54,9 +54,17 @@ Start the Receiver Bank API (simulates the receiving bank):
 python -m uvicorn mock_services.receiver_bank_api.main:app --reload --port 8020
 ```
 
+### Running the Fraud Investigator Agent
+
+Start the Fraud Investigator Agent:
+```bash
+python -m uvicorn agents.fraud_investigator.main:app --reload --port 8030
+```
+
 ### Running the Smoke Tests
 
-With both APIs running, open a new terminal and run:
+With all APIs running (Core Banking, Receiver Bank, and Fraud Investigator), open a new terminal and run the tests:
 ```bash
 python scripts/smoke_test_mock_apis.py
+python scripts/smoke_test_fraud_investigator.py
 ```
