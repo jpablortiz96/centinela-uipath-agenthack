@@ -32,3 +32,6 @@ Based on the investigation and human input, the system executes the final action
 
 ## 6. Audit Export
 A comprehensive, immutable log of all agent actions, API calls, retries, and human decisions is exported for compliance and auditing purposes.
+
+## 7. Chaos Console (Demo UI)
+A lightweight local dashboard (`apps/chaos_console`) provides a visual command center for judges to trigger scenarios (normal flow, API failures, human intervention) and inspect the chronological audit trail. It serves as the demo surface before the final UiPath UI integration.

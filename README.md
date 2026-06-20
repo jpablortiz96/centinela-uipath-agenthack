@@ -68,11 +68,19 @@ Start the local Case Orchestrator:
 python -m uvicorn orchestrator.case_orchestrator.main:app --reload --port 8040
 ```
 
+### Running the Chaos Console (Demo UI)
+
+Start the local Chaos Console:
+```bash
+python -m uvicorn apps.chaos_console.main:app --reload --port 8050
+```
+
 ### Running the Smoke Tests
 
-With all four services running (Core Banking, Receiver Bank, Fraud Investigator, and Case Orchestrator), open a new terminal and run the tests:
+With all five services running (Core Banking, Receiver Bank, Fraud Investigator, Case Orchestrator, and Chaos Console), open a new terminal and run the tests:
 ```bash
 python scripts/smoke_test_mock_apis.py
 python scripts/smoke_test_fraud_investigator.py
 python scripts/smoke_test_case_orchestrator.py
+python scripts/smoke_test_chaos_console.py
 ```

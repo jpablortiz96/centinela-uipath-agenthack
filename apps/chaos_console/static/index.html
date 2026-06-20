@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CENTINELA Chaos Console</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>CENTINELA</h1>
+        <h2>Agentic Fraud Dispute Case Manager</h2>
+        <p><i>“Break the case. Watch the workflow recover.”</i></p>
+    </header>
+
+    <main>
+        <section class="panel services-panel">
+            <h3>Service Status</h3>
+            <button id="btn-refresh-health">Refresh Status</button>
+            <ul id="service-list">
+                <li>Core Banking API: <span id="status-core">Unknown</span></li>
+                <li>Receiver Bank API: <span id="status-receiver">Unknown</span></li>
+                <li>Fraud Investigator Agent: <span id="status-fraud">Unknown</span></li>
+                <li>Case Orchestrator: <span id="status-orch">Unknown</span></li>
+            </ul>
+        </section>
+
+        <section class="panel scenarios-panel">
+            <h3>Scenarios</h3>
+            <button class="scenario-btn" onclick="runScenario('normal')">Run Normal Case</button>
+            <button class="scenario-btn" onclick="runScenario('receiver-conflict')">Break Case: Receiver Bank Conflict</button>
+            <button class="scenario-btn" onclick="runScenario('receiver-api-down')">Break Case: Receiver Bank API Down</button>
+            
+            <h4 style="margin-top:20px;">Human Actions</h4>
+            <button class="action-btn" onclick="humanDecision('approve_refund')">Human Decision: Approve Refund</button>
+            <button class="action-btn" onclick="humanDecision('request_more_evidence')">Human Decision: Request More Evidence</button>
+            <button class="action-btn" onclick="exportAudit()">Export Audit</button>
+        </section>
+
+        <section class="panel current-case-panel">
+            <h3>Current Case</h3>
+            <div id="case-details">
+                <p><strong>Case ID:</strong> <span id="val-case-id">-</span></p>
+                <p><strong>Current Stage:</strong> <span id="val-stage">-</span></p>
+                <p><strong>Status:</strong> <span id="val-status">-</span></p>
+                <p><strong>Final Decision:</strong> <span id="val-final">-</span></p>
+                <p><strong>Risk Score:</strong> <span id="val-risk-score">-</span></p>
+                <p><strong>Risk Level:</strong> <span id="val-risk-level">-</span></p>
+                <p><strong>Recommended Action:</strong> <span id="val-action">-</span></p>
+                <p><strong>Human Review Required:</strong> <span id="val-human-review">-</span></p>
+            </div>
+        </section>
+
+        <section class="panel timeline-panel">
+            <h3>Audit Timeline</h3>
+            <div id="audit-timeline"></div>
+        </section>
+
+        <section class="panel raw-json-panel">
+            <h3>Raw JSON</h3>
+            <pre id="raw-json">{}</pre>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>

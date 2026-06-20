@@ -2,29 +2,28 @@
 
 **Target Duration**: 5 minutes
 
-## 1. Introduction (0:00 - 0:30)
+## 1. Setup & Introduction (0:00 - 1:00)
 - Briefly introduce the business problem: Fraud dispute resolution for instant payments in LATAM is complex and error-prone.
 - Introduce CENTINELA and the core thesis: We test what happens when the case breaks and how UiPath Maestro Case keeps it alive.
+- Open the **Chaos Console** at `http://127.0.0.1:8050`.
+- Click **Refresh Status** to verify that the core simulated APIs (Core Banking, Receiver Bank, Fraud Investigator, Case Orchestrator) are healthy.
 
-## 2. Create Fraud Dispute (0:30 - 1:15)
-- Show a synthetic customer submitting a fraud claim via a mock chat/portal.
-- The **Intake Agent** captures the details.
+## 2. Run Normal Case (1:00 - 2:00)
+- Click **Run Normal Case**.
+- Explain: A typical, low-risk fraud dispute is ingested and handled automatically.
+- Show: The timeline populates, the risk level remains low/medium, and the case auto-resolves.
 
-## 3. Process Evidence (1:15 - 2:00)
-- The **Evidence Agent** uses Document Understanding to parse the submitted receipt.
-- Show the extraction results and confidence scores.
+## 3. Inject Failure & Investigation (2:00 - 3:00)
+- Click **Break Case: Receiver Bank Conflict**.
+- Explain: Here is where CENTINELA handles chaos. A high-value case enters, and the mock Receiver Bank API returns conflicting information (simulating a flagged account).
+- Show: The Fraud Investigator calculates a `critical` risk score. The Case Orchestrator intelligently pauses and sets the status to `waiting_for_human`.
 
-## 4. Inject Failure & Investigation (2:00 - 3:00)
-- The **Fraud Investigator Agent** queries the mock Receiver Bank API.
-- **INJECT FAILURE**: Trigger a `receiver_bank_api_down` or `investigator_timeout` error.
-- Show Maestro Case catching the exception, updating the case state, and initiating a retry mechanism.
+## 4. Human Decision (3:00 - 4:00)
+- Explain: In production, this maps to **UiPath Action Center**.
+- Click **Human Decision: Approve Refund**.
+- Show: The orchestrator logs the human intervention and progresses the case to `resolved_by_human`.
 
-## 5. Human Decision (3:00 - 4:00)
-- The failure cannot be automatically resolved or hits a `high_risk_refund_gate`.
-- The case escalates to a human.
-- Open **UiPath Action Center**, review the summarized case data, and click "Approve Refund".
-
-## 6. Audit & Conclusion (4:00 - 5:00)
-- Show the case successfully resolving.
-- Display the exported Audit Trail, highlighting every step, failure, retry, and the human action.
-- Conclude with the value proposition of Maestro Case for long-running, resilient workflows.
+## 5. Audit & Conclusion (4:00 - 5:00)
+- Click **Export Audit**.
+- Show the raw, judge-friendly JSON output in the console. Highlight how every step, failure, and human action is immutably logged with timestamps.
+- Conclude: This transparent, end-to-end resilience is exactly what we will integrate into UiPath Maestro Case next.
