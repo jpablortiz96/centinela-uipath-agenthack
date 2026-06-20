@@ -61,10 +61,18 @@ Start the Fraud Investigator Agent:
 python -m uvicorn agents.fraud_investigator.main:app --reload --port 8030
 ```
 
+### Running the Case Orchestrator
+
+Start the local Case Orchestrator:
+```bash
+python -m uvicorn orchestrator.case_orchestrator.main:app --reload --port 8040
+```
+
 ### Running the Smoke Tests
 
-With all APIs running (Core Banking, Receiver Bank, and Fraud Investigator), open a new terminal and run the tests:
+With all four services running (Core Banking, Receiver Bank, Fraud Investigator, and Case Orchestrator), open a new terminal and run the tests:
 ```bash
 python scripts/smoke_test_mock_apis.py
 python scripts/smoke_test_fraud_investigator.py
+python scripts/smoke_test_case_orchestrator.py
 ```

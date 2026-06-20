@@ -1,6 +1,6 @@
 # Architecture: Case Lifecycle
 
-The lifecycle of a fraud dispute in CENTINELA follows a robust, multi-step process orchestrated by UiPath Maestro Case.
+The lifecycle of a fraud dispute in CENTINELA follows a robust, multi-step process. In the current local simulation, this is managed by the **Case Orchestrator**. In the final solution, it will be orchestrated by **UiPath Maestro Case**.
 
 ```mermaid
 graph TD

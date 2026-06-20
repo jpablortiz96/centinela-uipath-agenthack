@@ -22,3 +22,13 @@ CENTINELA leverages the following UiPath components to orchestrate the fraud dis
 
 7. **Automation Cloud**
    - The underlying platform hosting and managing the deployment of all agents, queues, and assets.
+
+## Local-to-UiPath Mapping
+
+The Step 4 local Case Orchestrator simulates the future UiPath implementation. Here is how the local mock maps to the actual UiPath stack:
+
+* **Local case stage transitions** → UiPath Maestro Case stages
+* **Human decision endpoint** → UiPath Action Center / human task
+* **API calls** → UiPath API Workflows
+* **Fraud Investigator Agent** → Coded Agent
+* **Audit events** → Maestro visibility/audit trail
