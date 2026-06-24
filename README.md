@@ -82,6 +82,15 @@ With all five services running (Core Banking, Receiver Bank, Fraud Investigator,
 python scripts/run_all_smoke_tests.py
 ```
 
+## CENTINELA Runtime API
+This is the deployable backend intended for UiPath integration. The Runtime API is the integration target for UiPath API Workflow or External Workflow. It provides public HTTP endpoints, persistence, auditability, and OpenAPI specifications. 
+The local multi-service mode (mock banking APIs, local orchestrator, chaos console) remains available for technical review, but the Runtime API is the unified service to be connected to the cloud.
+
+Start the Runtime API locally:
+```bash
+python -m uvicorn apps.centinela_runtime.main:app --reload --port 8070
+```
+
 ## Evidence Pack
 We prioritize an evidence-first approach. All capabilities claimed during the hackathon are backed by reproducible code, logs, and screenshots available in the `evidence/` directory.
 - **[Evidence Report](evidence/EVIDENCE_REPORT.md)**: Generated metrics and run summary.
