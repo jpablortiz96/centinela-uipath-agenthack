@@ -75,12 +75,17 @@ Start the local Chaos Console:
 python -m uvicorn apps.chaos_console.main:app --reload --port 8050
 ```
 
-### Running the Smoke Tests
+### Running All Smoke Tests
 
-With all five services running (Core Banking, Receiver Bank, Fraud Investigator, Case Orchestrator, and Chaos Console), open a new terminal and run the tests:
+With all five services running (Core Banking, Receiver Bank, Fraud Investigator, Case Orchestrator, and Chaos Console), open a new terminal and run the full suite:
 ```bash
-python scripts/smoke_test_mock_apis.py
-python scripts/smoke_test_fraud_investigator.py
-python scripts/smoke_test_case_orchestrator.py
-python scripts/smoke_test_chaos_console.py
+python scripts/run_all_smoke_tests.py
 ```
+
+## Evidence Pack
+We prioritize an evidence-first approach. All capabilities claimed during the hackathon are backed by reproducible code, logs, and screenshots available in the `evidence/` directory.
+- **[Evidence Report](evidence/EVIDENCE_REPORT.md)**: Generated metrics and run summary.
+- **[Metrics Summary](evidence/metrics_summary.json)**: Raw JSON snapshot of chaos metrics.
+- **[Claims Mapping](docs/CLAIMS.md)**: Honest accounting of claims vs. local implementations.
+- **[Logs](evidence/logs/)**: Raw smoke test outputs and JSONL orchestrator audits.
+- **[Screenshots](evidence/manual-screenshots/)**: Visual verification of UI capabilities.

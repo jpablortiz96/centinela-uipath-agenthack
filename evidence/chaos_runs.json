@@ -1,6 +1,6 @@
 [
   {
-    "case_id": "CASE-32B10883",
+    "case_id": "CASE-35001C73",
     "amount_cop": 3215162.65,
     "channel": "app",
     "evidence_quality": "high",
@@ -14,7 +14,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-6548187C",
+    "case_id": "CASE-CF069D0D",
     "amount_cop": 1154893.15,
     "channel": "app",
     "evidence_quality": "high",
@@ -28,7 +28,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-D94B17AE",
+    "case_id": "CASE-7150AEEE",
     "amount_cop": 480347.22,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -42,9 +42,9 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-19EAB4ED",
-    "amount_cop": 2551508.68,
-    "channel": "app",
+    "case_id": "CASE-C213AE49",
+    "amount_cop": 181353.05,
+    "channel": "web",
     "evidence_quality": "high",
     "injected_failure_type": "none",
     "recovered": true,
@@ -56,7 +56,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-E513CAD5",
+    "case_id": "CASE-52D12942",
     "amount_cop": 2126623.11,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -70,7 +70,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-33FDE299",
+    "case_id": "CASE-37FBB1B9",
     "amount_cop": 3806096.47,
     "channel": "web",
     "evidence_quality": "high",
@@ -84,7 +84,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-5D93FECC",
+    "case_id": "CASE-2D1AEF2A",
     "amount_cop": 1425463.14,
     "channel": "web",
     "evidence_quality": "high",
@@ -98,7 +98,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-A8AB008B",
+    "case_id": "CASE-7E8C0CEE",
     "amount_cop": 555940.87,
     "channel": "whatsapp",
     "evidence_quality": "medium",
@@ -112,7 +112,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-E2C45DF6",
+    "case_id": "CASE-D04C706D",
     "amount_cop": 4045284.95,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -126,7 +126,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-D45569B1",
+    "case_id": "CASE-6784F9E4",
     "amount_cop": 440060.98,
     "channel": "call_center",
     "evidence_quality": "high",
@@ -140,7 +140,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-14B22383",
+    "case_id": "CASE-5F1B8E3B",
     "amount_cop": 4432986.15,
     "channel": "call_center",
     "evidence_quality": "high",
@@ -154,7 +154,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-EF4E5649",
+    "case_id": "CASE-A96DEC43",
     "amount_cop": 276830.7,
     "channel": "web",
     "evidence_quality": "high",
@@ -168,7 +168,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-6375CA99",
+    "case_id": "CASE-12D7B1CF",
     "amount_cop": 4283822.72,
     "channel": "app",
     "evidence_quality": "high",
@@ -182,7 +182,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-7A60DA7C",
+    "case_id": "CASE-93317D45",
     "amount_cop": 3196638.0,
     "channel": "call_center",
     "evidence_quality": "medium",
@@ -196,7 +196,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-479D12C0",
+    "case_id": "CASE-6DE21D0F",
     "amount_cop": 1371540.22,
     "channel": "app",
     "evidence_quality": "high",
@@ -210,7 +210,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-F7204D4D",
+    "case_id": "CASE-99509563",
     "amount_cop": 2693992.39,
     "channel": "web",
     "evidence_quality": "high",
@@ -224,7 +224,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-60F09AE4",
+    "case_id": "CASE-47A2E45D",
     "amount_cop": 4222117.0,
     "channel": "app",
     "evidence_quality": "high",
@@ -238,36 +238,22 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-43D068AA",
-    "amount_cop": 1375317.34,
-    "channel": "web",
-    "evidence_quality": "high",
-    "injected_failure_type": "none",
-    "recovered": true,
-    "retries": 0,
-    "escalated_to_human": false,
-    "deadline_breached": false,
-    "audit_complete": true,
-    "time_to_recover_s": 5,
-    "final_status": "resolved"
-  },
-  {
-    "case_id": "CASE-D617B2E8",
-    "amount_cop": 4388019.75,
+    "case_id": "CASE-631FDBC6",
+    "amount_cop": 1094365.08,
     "channel": "call_center",
     "evidence_quality": "high",
     "injected_failure_type": "investigator_timeout",
-    "recovered": true,
+    "recovered": false,
     "retries": 2,
     "escalated_to_human": false,
     "deadline_breached": false,
-    "audit_complete": true,
+    "audit_complete": false,
     "time_to_recover_s": 124,
-    "final_status": "resolved"
+    "final_status": "failed"
   },
   {
-    "case_id": "CASE-CF440947",
-    "amount_cop": 741170.08,
+    "case_id": "CASE-8D62915E",
+    "amount_cop": 3737695.46,
     "channel": "call_center",
     "evidence_quality": "high",
     "injected_failure_type": "none",
@@ -280,7 +266,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-2A0B7A8B",
+    "case_id": "CASE-C9820BC1",
     "amount_cop": 4494223.27,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -294,7 +280,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-188803D6",
+    "case_id": "CASE-98CFCA36",
     "amount_cop": 2572155.15,
     "channel": "app",
     "evidence_quality": "high",
@@ -308,7 +294,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-956FF043",
+    "case_id": "CASE-2F783812",
     "amount_cop": 806564.53,
     "channel": "web",
     "evidence_quality": "high",
@@ -322,7 +308,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-0504AC40",
+    "case_id": "CASE-017B9D12",
     "amount_cop": 3002224.7,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -336,7 +322,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-67095BE7",
+    "case_id": "CASE-A19E44B6",
     "amount_cop": 2669116.01,
     "channel": "app",
     "evidence_quality": "high",
@@ -350,7 +336,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-5BCC9151",
+    "case_id": "CASE-1F4338E2",
     "amount_cop": 3424466.33,
     "channel": "call_center",
     "evidence_quality": "high",
@@ -364,7 +350,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-72FF217E",
+    "case_id": "CASE-30E208A7",
     "amount_cop": 602183.26,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -378,8 +364,8 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-5C5E902A",
-    "amount_cop": 3821712.89,
+    "case_id": "CASE-E2C993DB",
+    "amount_cop": 2563024.29,
     "channel": "app",
     "evidence_quality": "high",
     "injected_failure_type": "none",
@@ -392,7 +378,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-D4F6A57C",
+    "case_id": "CASE-5A68E814",
     "amount_cop": 4216263.27,
     "channel": "web",
     "evidence_quality": "low",
@@ -406,7 +392,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-F165CB74",
+    "case_id": "CASE-FF9876F9",
     "amount_cop": 4616048.7,
     "channel": "app",
     "evidence_quality": "high",
@@ -420,7 +406,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-98CA8A96",
+    "case_id": "CASE-139BAD07",
     "amount_cop": 146409.87,
     "channel": "call_center",
     "evidence_quality": "high",
@@ -434,7 +420,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-A31A8740",
+    "case_id": "CASE-32DA4EEA",
     "amount_cop": 1235288.94,
     "channel": "web",
     "evidence_quality": "high",
@@ -448,7 +434,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-37FCDA6B",
+    "case_id": "CASE-AD27B173",
     "amount_cop": 473984.59,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -462,7 +448,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-56646141",
+    "case_id": "CASE-9115A463",
     "amount_cop": 3840880.43,
     "channel": "web",
     "evidence_quality": "high",
@@ -476,7 +462,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-3243DF80",
+    "case_id": "CASE-45A64B9B",
     "amount_cop": 867378.45,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -490,7 +476,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-E5CC96C4",
+    "case_id": "CASE-0A62D6E2",
     "amount_cop": 3788562.72,
     "channel": "web",
     "evidence_quality": "high",
@@ -504,7 +490,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-6CE503EC",
+    "case_id": "CASE-7C4C093C",
     "amount_cop": 4975989.32,
     "channel": "call_center",
     "evidence_quality": "high",
@@ -518,7 +504,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-DDDBC13D",
+    "case_id": "CASE-CAFDA5EE",
     "amount_cop": 2284856.4,
     "channel": "web",
     "evidence_quality": "medium",
@@ -532,7 +518,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-32D0034C",
+    "case_id": "CASE-CABD1773",
     "amount_cop": 2791911.54,
     "channel": "web",
     "evidence_quality": "high",
@@ -546,22 +532,22 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-538D5587",
-    "amount_cop": 4531829.06,
-    "channel": "call_center",
-    "evidence_quality": "low",
-    "injected_failure_type": "unreadable_document",
+    "case_id": "CASE-9061B417",
+    "amount_cop": 4305195.23,
+    "channel": "app",
+    "evidence_quality": "high",
+    "injected_failure_type": "none",
     "recovered": true,
     "retries": 0,
-    "escalated_to_human": true,
-    "deadline_breached": true,
+    "escalated_to_human": false,
+    "deadline_breached": false,
     "audit_complete": true,
-    "time_to_recover_s": 3043,
+    "time_to_recover_s": 3,
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-6B712598",
-    "amount_cop": 2452801.77,
+    "case_id": "CASE-6E458211",
+    "amount_cop": 3361440.0,
     "channel": "web",
     "evidence_quality": "high",
     "injected_failure_type": "none",
@@ -574,7 +560,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-D94705D9",
+    "case_id": "CASE-093B008B",
     "amount_cop": 2902247.67,
     "channel": "web",
     "evidence_quality": "high",
@@ -588,7 +574,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-6B30FC5A",
+    "case_id": "CASE-E34A7517",
     "amount_cop": 992529.08,
     "channel": "app",
     "evidence_quality": "high",
@@ -602,7 +588,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-D0FDFF79",
+    "case_id": "CASE-847C0ACD",
     "amount_cop": 2146714.18,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -616,7 +602,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-7BAD2A39",
+    "case_id": "CASE-C9764C45",
     "amount_cop": 3383154.51,
     "channel": "app",
     "evidence_quality": "medium",
@@ -630,7 +616,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-047F323E",
+    "case_id": "CASE-C561B3E0",
     "amount_cop": 998370.86,
     "channel": "whatsapp",
     "evidence_quality": "low",
@@ -644,7 +630,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-B16D8274",
+    "case_id": "CASE-E83AB1F7",
     "amount_cop": 1286541.92,
     "channel": "app",
     "evidence_quality": "high",
@@ -658,7 +644,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-2D19EC79",
+    "case_id": "CASE-1CD89B61",
     "amount_cop": 534648.2,
     "channel": "app",
     "evidence_quality": "high",
@@ -672,7 +658,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-75BA6ABB",
+    "case_id": "CASE-5BA6E552",
     "amount_cop": 873240.0,
     "channel": "whatsapp",
     "evidence_quality": "high",
@@ -686,7 +672,7 @@
     "final_status": "resolved"
   },
   {
-    "case_id": "CASE-792FA31A",
+    "case_id": "CASE-11EBDE78",
     "amount_cop": 4517092.18,
     "channel": "web",
     "evidence_quality": "high",
@@ -697,6 +683,20 @@
     "deadline_breached": false,
     "audit_complete": true,
     "time_to_recover_s": 4,
+    "final_status": "resolved"
+  },
+  {
+    "case_id": "CASE-352E3409",
+    "amount_cop": 1362755.14,
+    "channel": "whatsapp",
+    "evidence_quality": "high",
+    "injected_failure_type": "high_risk_refund_gate",
+    "recovered": true,
+    "retries": 0,
+    "escalated_to_human": true,
+    "deadline_breached": false,
+    "audit_complete": true,
+    "time_to_recover_s": 938,
     "final_status": "resolved"
   }
 ]

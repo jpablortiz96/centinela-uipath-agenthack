@@ -1,0 +1,9 @@
+{
+  "total_cases": 50,
+  "injected_failures": 13,
+  "recovery_rate_from_failures": "92.3%",
+  "human_escalation_rate": "14.0%",
+  "deadline_breach_rate": "8.0%",
+  "audit_completion_rate": "98.0%",
+  "average_time_to_recover_s": 310.8
+}
