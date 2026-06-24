@@ -87,5 +87,6 @@ We prioritize an evidence-first approach. All capabilities claimed during the ha
 - **[Evidence Report](evidence/EVIDENCE_REPORT.md)**: Generated metrics and run summary.
 - **[Metrics Summary](evidence/metrics_summary.json)**: Raw JSON snapshot of chaos metrics.
 - **[Claims Mapping](docs/CLAIMS.md)**: Honest accounting of claims vs. local implementations.
+- **[UiPath Execution Evidence](docs/UIPATH_EXECUTION_EVIDENCE.md)**: Details on the Maestro Case execution in Automation Cloud.
 - **[Logs](evidence/logs/)**: Raw smoke test outputs and JSONL orchestrator audits.
-- **[Screenshots](evidence/manual-screenshots/)**: Visual verification of UI capabilities.
+- **[Screenshots](evidence/manual-screenshots/)**: Visual verification of UI capabilities and UiPath execution.
