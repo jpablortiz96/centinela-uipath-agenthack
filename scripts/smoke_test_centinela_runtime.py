@@ -195,6 +195,30 @@ def main():
         else:
             print("FAIL", r.text)
             all_passed = False
+            
+        # 15. GET /uipath/maestro-approve-latest
+        print("\n15. Testing GET /uipath/maestro-approve-latest...")
+        r = requests.get(f"{base_url}/uipath/maestro-approve-latest")
+        res = r.json()
+        if r.status_code == 200 and res.get("status") == "resolved_by_human" and res.get("human_decision") == "approve_refund":
+            print("PASS (Approve latest case)")
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+            
+        # 16. GET /uipath/maestro-export-latest (after approve)
+        print("\n16. Testing GET /uipath/maestro-export-latest (post-approve)...")
+        r = requests.get(f"{base_url}/uipath/maestro-export-latest")
+        if r.status_code == 200:
+            export_data = r.json()
+            if export_data.get("case_id") == api_down_case_id and export_data.get("status") == "resolved_by_human" and export_data.get("human_decision") == "approve_refund":
+                print("PASS (Export post-approve matches)")
+            else:
+                print("FAIL: Export mismatch", export_data)
+                all_passed = False
+        else:
+            print("FAIL", r.text)
+            all_passed = False
 
     except Exception as e:
         print(f"Exception during tests: {e}")

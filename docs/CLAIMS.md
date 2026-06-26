@@ -20,4 +20,5 @@ This document maps our hackathon claims to the specific evidence artifacts suppo
 | CENTINELA calculates SLA status deterministically. | `apps/centinela_runtime/services/case_management.py` | Supported | Included in export payload. |
 | CENTINELA generates deterministic Analyst Briefs and Customer Response Drafts. | `apps/centinela_runtime/services/case_management.py` | Supported | Elevates the realism of the human decision stage. |
 | CENTINELA UiPath debug connector integration was successful. | Code/Logs | Supported | Maestro executed the connector activity in Debug mode on cloud. |
+| CENTINELA supports end-to-end Maestro case execution using no-body connector endpoints for Investigation, Resolution, and Audit Export. | `apps/centinela_runtime/main.py` | Supported | Enables end-to-end UiPath execution despite UI limitations. |
 | Connected Maestro solution publish is blocked by UiPath Labs limitation. | `docs/UIPATH_PRODUCT_FEEDBACK.md` | Pending UiPath Fix | Packaging fails with 'elements unknown' for custom connectors. |

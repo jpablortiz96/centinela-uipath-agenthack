@@ -1,6 +1,6 @@
 import uuid
 from fastapi import FastAPI, HTTPException
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
 from .schemas import (
     CaseCreateInput, HumanDecisionInput, CaseState, 
@@ -114,6 +114,17 @@ def export_case(case_id: str):
 
 # UiPath-friendly endpoints
 
+def get_latest_uipath_waiting_case() -> Optional[Dict[str, Any]]:
+    cases = get_all_cases()
+    if not cases:
+        return None
+        
+    # Prefer uipath-maestro, then uipath
+    for case in reversed(cases):
+        if case.get("status") == "waiting_for_human" and "uipath" in case.get("source", ""):
+            return case
+    return None
+
 def to_uipath_compact(case_data: Dict[str, Any]) -> UiPathCompactOutput:
     audit = get_case_audit(case_data["case_id"])
     return {
@@ -212,13 +223,58 @@ def uipath_maestro_investigation_default():
         "message": msg
     }
 
+def apply_maestro_decision(decision: str, notes: str):
+    case_data = get_latest_uipath_waiting_case()
+    if not case_data:
+        from fastapi.responses import JSONResponse
+        return JSONResponse(status_code=404, content={
+            "error": "Not Found",
+            "message": "No case found waiting for human decision.",
+            "suggested_action": "Run /uipath/maestro-investigation-default or /uipath/maestro-api-down-default first."
+        })
+        
+    case_data = process_human_decision(
+        case_data, 
+        decision=decision, 
+        analyst="uipath-maestro-human-analyst", 
+        notes=notes
+    )
+    compact = to_uipath_compact(case_data)
+    
+    return {
+        **compact,
+        "human_decision": case_data.get("human_decision"),
+        "message": f"Applied decision {decision} from UiPath Maestro."
+    }
+
+@app.get("/uipath/maestro-approve-latest")
+def uipath_maestro_approve_latest():
+    return apply_maestro_decision("approve_refund", "Approved from UiPath Maestro Resolution stage after human review.")
+
+@app.get("/uipath/maestro-reject-latest")
+def uipath_maestro_reject_latest():
+    return apply_maestro_decision("reject_refund", "Rejected from UiPath Maestro Resolution stage after human review.")
+
+@app.get("/uipath/maestro-request-more-evidence-latest")
+def uipath_maestro_request_more_evidence_latest():
+    return apply_maestro_decision("request_more_evidence", "Requested more evidence from UiPath Maestro Evidence Review stage.")
+
+@app.get("/uipath/maestro-escalate-latest")
+def uipath_maestro_escalate_latest():
+    return apply_maestro_decision("escalate_fraud_ops", "Escalated to fraud ops from UiPath Maestro Human Decision stage.")
+
 @app.get("/uipath/maestro-export-latest")
 def uipath_maestro_export_latest():
     cases = get_all_cases()
     if not cases:
         raise HTTPException(status_code=404, detail="No cases found")
     
-    # The last appended case should be at the end of the list
+    # Find latest uipath case
+    for case in reversed(cases):
+        if "uipath" in case.get("source", ""):
+            return export_case(case["case_id"])
+            
+    # Fallback to the last case if no uipath case
     latest_case_id = cases[-1]["case_id"]
     return export_case(latest_case_id)
 

@@ -87,13 +87,25 @@ def process_human_decision(case_data: Dict[str, Any], decision: str, analyst: st
     })
     
     case_data["human_decision"] = decision
-    case_data["status"] = "resolved_by_human"
-    case_data["current_stage"] = "Resolution"
+    
+    if decision in ["approve_refund", "reject_refund"]:
+        case_data["status"] = "resolved_by_human"
+        case_data["current_stage"] = "Resolution"
+        log_event(case_data["case_id"], "ResolutionApplied", {"decision": decision})
+    elif decision == "request_more_evidence":
+        case_data["status"] = "waiting_for_evidence"
+        case_data["current_stage"] = "Evidence Review"
+    elif decision == "escalate_fraud_ops":
+        case_data["status"] = "escalated_to_fraud_ops"
+        case_data["current_stage"] = "Human Decision" # keeping it in Human Decision makes sense, or could be Escalate. We'll stick to Human Decision.
+    else:
+        case_data["status"] = "resolved_by_human"
+        case_data["current_stage"] = "Resolution"
     
     # Update customer response draft after decision
     generate_customer_response_draft(case_data)
     
-    log_event(case_data["case_id"], "StageTransition", {"new_stage": "Resolution", "reason": f"Human decision applied: {decision}"})
+    log_event(case_data["case_id"], "StageTransition", {"new_stage": case_data["current_stage"], "reason": f"Human decision applied: {decision}"})
     
     save_case(case_data)
     return case_data

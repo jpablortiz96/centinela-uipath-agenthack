@@ -24,7 +24,15 @@ To avoid complex API Workflow project packaging in Maestro, the recommended inte
 4. The human completes the task in UiPath.
 5. The case continues its lifecycle in Maestro.
 
-## Limitations
+### Maestro No-Body End-to-End Lifecycle
+Due to body serialization issues in UiPath Integration Services, we implemented a complete stateless/no-body REST path for Maestro Connector integration:
+1. **Investigation**: `GET /uipath/maestro-api-down-default` (or `GET /uipath/maestro-investigation-default`) creates and runs the investigation automatically.
+2. **Resolution (Human Decision)**: `GET /uipath/maestro-approve-latest`, `GET /uipath/maestro-reject-latest`, `GET /uipath/maestro-request-more-evidence-latest`, or `GET /uipath/maestro-escalate-latest`.
+3. **Audit Export**: `GET /uipath/maestro-export-latest` fetches the updated state of the latest Maestro case.
+
+## Deployment Strategy
 - **No Real Banking Data**: All data is synthetic.
 - **Local Persistence**: JSONL files are used instead of a relational database to keep deployment complexity low.
 - **Deterministic**: LLM calls are omitted to ensure predictable behavior during the integration phase.
+
+

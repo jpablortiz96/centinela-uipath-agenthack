@@ -33,6 +33,13 @@ We prioritize an evidence-first approach, generating robust synthetic data and s
 - Maestro connector validated in Debug mode in the cloud.
 - Connected publish is currently blocked by a UiPath Labs connector packaging issue (see `docs/UIPATH_PRODUCT_FEEDBACK.md`).
 - Runtime hardening v2 is available, introducing retry mechanics, deterministic SLA calculation, and policy-driven human gating.
+- End-to-end Maestro no-body integration path added.
+
+### Maestro No-Body Integration Path
+To bypass UiPath Integration Services body serialization bugs, you can execute a full case lifecycle purely via GET endpoints:
+- **Investigation** → `GET /uipath/maestro-api-down-default`
+- **Resolution** → `GET /uipath/maestro-approve-latest` (or `-reject-latest`, `-request-more-evidence-latest`, `-escalate-latest`)
+- **Audit Export** → `GET /uipath/maestro-export-latest`
 
 ## Setup Instructions
 1. Clone the repository.
