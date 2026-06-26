@@ -1,2 +1,8 @@
 
 runtime_data/
+
+__pycache__/
+*.py[cod]
+.venv/
+.env
+runtime_data/
