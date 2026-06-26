@@ -159,3 +159,42 @@ def uipath_maestro_investigation(input_data: CaseCreateInput, request: Request):
 @app.get("/uipath/maestro-export/{case_id}", response_model=AuditExportOutput)
 def uipath_maestro_export(case_id: str):
     return export_case(case_id)
+
+@app.get("/uipath/maestro-investigation-default", response_model=UiPathMaestroOutput)
+def uipath_maestro_investigation_default():
+    input_data = CaseCreateInput(
+        customer_id="CUST-001",
+        transaction_id="TX-MAESTRO-DEFAULT-001",
+        amount_cop=2400000,
+        evidence_quality="clear",
+        reported_reason="Customer reports unauthorized high-value instant payment with inconsistent receiver information",
+        simulate_receiver_failure="conflicting_response",
+        source="uipath-maestro"
+    )
+    
+    # 1. Create case
+    case_data = create_case(input_data)
+    
+    # 2. Run investigation
+    case_data = process_investigation(case_data)
+    
+    # 3. Compact output
+    compact = to_uipath_compact(case_data)
+    
+    # 4. Message
+    msg = "Investigation completed. Human decision required." if compact["human_review_required"] else "Investigation completed. Case auto-resolved."
+    
+    return {
+        **compact,
+        "message": msg
+    }
+
+@app.get("/uipath/maestro-export-latest")
+def uipath_maestro_export_latest():
+    cases = get_all_cases()
+    if not cases:
+        raise HTTPException(status_code=404, detail="No cases found")
+    
+    # The last appended case should be at the end of the list
+    latest_case_id = cases[-1]["case_id"]
+    return export_case(latest_case_id)

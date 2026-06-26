@@ -18,7 +18,7 @@ This lightweight JSONL approach survives restarts and is ideal for early-stage i
 
 ## UiPath Integration Path
 To avoid complex API Workflow project packaging in Maestro, the recommended integration path is via a Connector Activity or HTTP/OpenAPI connector. The service exposes specific `/uipath/*` endpoints, including a single-call Maestro-friendly endpoint:
-1. Maestro Case triggers a Connector Activity pointing to `/uipath/maestro-investigation`.
+1. Maestro Case triggers a Connector Activity pointing to `/uipath/maestro-investigation-default`. (Note: This GET endpoint exists to avoid UiPath Labs body serialization issues in Connector Activity).
 2. The endpoint creates the case, runs the investigation, and immediately returns the required state.
 3. If `human_review_required` is true, Maestro creates an Action Center task based on the response.
 4. The human completes the task in UiPath.

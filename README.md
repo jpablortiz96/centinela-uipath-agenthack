@@ -87,7 +87,7 @@ This is the deployable backend intended for UiPath integration. The Runtime API 
 The local multi-service mode (mock banking APIs, local orchestrator, chaos console) remains available for technical review, but the Runtime API is the unified service to be connected to the cloud.
 
 ### Maestro Direct Connector Integration
-To avoid the "No solution tool factory is registered" error during Maestro packaging, the API exposes a single-call Maestro endpoint (`/uipath/maestro-investigation`). This allows Maestro to call the runtime directly via a Connector Activity or HTTP connector instead of requiring a separate API Workflow project.
+To avoid the "No solution tool factory is registered" error during Maestro packaging, the API exposes a single-call Maestro endpoint (`/uipath/maestro-investigation`). This allows Maestro to call the runtime directly via a Connector Activity or HTTP connector instead of requiring a separate API Workflow project. To bypass body serialization issues in UiPath Labs Integration Service, the runtime also exposes a Maestro no-body connector endpoint (`GET /uipath/maestro-investigation-default`) that uses default parameters.
 
 Start the Runtime API locally:
 ```bash

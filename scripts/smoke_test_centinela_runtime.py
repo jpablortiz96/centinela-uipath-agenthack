@@ -140,6 +140,26 @@ def main():
             print("FAIL", r.text)
             all_passed = False
 
+        # 11. GET /uipath/maestro-investigation-default
+        print("\n11. Testing GET /uipath/maestro-investigation-default...")
+        r = requests.get(f"{base_url}/uipath/maestro-investigation-default")
+        res = r.json()
+        if r.status_code == 200 and res.get("status") == "waiting_for_human" and res.get("human_review_required") == True:
+            maestro_default_case_id = res.get("case_id")
+            print("PASS", maestro_default_case_id)
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+
+        # 12. GET /uipath/maestro-export-latest
+        print("\n12. Testing GET /uipath/maestro-export-latest...")
+        r = requests.get(f"{base_url}/uipath/maestro-export-latest")
+        if r.status_code == 200 and r.json().get("case_id") == maestro_default_case_id:
+            print("PASS")
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+
     except Exception as e:
         print(f"Exception during tests: {e}")
         all_passed = False

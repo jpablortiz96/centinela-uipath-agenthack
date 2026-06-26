@@ -61,7 +61,7 @@ class UiPathMaestroOutput(BaseModel):
     human_review_required: bool
     next_required_action: Optional[str] = None
     audit_event_count: int
-    runtime_url: str
+    runtime_url: Optional[str] = None
     message: str
 
 class AuditExportOutput(BaseModel):
