@@ -51,6 +51,19 @@ class UiPathCompactOutput(BaseModel):
     next_required_action: Optional[str] = None
     audit_event_count: int
 
+class UiPathMaestroOutput(BaseModel):
+    case_id: str
+    status: str
+    current_stage: str
+    risk_score: Optional[int] = None
+    risk_level: Optional[str] = None
+    recommended_action: Optional[str] = None
+    human_review_required: bool
+    next_required_action: Optional[str] = None
+    audit_event_count: int
+    runtime_url: str
+    message: str
+
 class AuditExportOutput(BaseModel):
     case_id: str
     status: str

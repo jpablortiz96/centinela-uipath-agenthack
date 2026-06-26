@@ -17,11 +17,12 @@ Currently, these return synthetic deterministic responses based on input flags. 
 This lightweight JSONL approach survives restarts and is ideal for early-stage integration testing.
 
 ## UiPath Integration Path
-The service exposes specific `/uipath/*` endpoints designed to return compact outputs suitable for UiPath API Workflows and External Workflows.
-1. UiPath calls `/uipath/start-fraud-dispute`.
-2. UiPath calls `/uipath/run-investigation`. If `human_review_required` is true, the UiPath workflow suspends and creates an Action Center task.
-3. The human completes the task in UiPath.
-4. UiPath resumes and calls `/uipath/submit-human-decision`.
+To avoid complex API Workflow project packaging in Maestro, the recommended integration path is via a Connector Activity or HTTP/OpenAPI connector. The service exposes specific `/uipath/*` endpoints, including a single-call Maestro-friendly endpoint:
+1. Maestro Case triggers a Connector Activity pointing to `/uipath/maestro-investigation`.
+2. The endpoint creates the case, runs the investigation, and immediately returns the required state.
+3. If `human_review_required` is true, Maestro creates an Action Center task based on the response.
+4. The human completes the task in UiPath.
+5. The case continues its lifecycle in Maestro.
 
 ## Limitations
 - **No Real Banking Data**: All data is synthetic.

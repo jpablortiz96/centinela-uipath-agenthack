@@ -110,6 +110,36 @@ def main():
             print("FAIL", r.text)
             all_passed = False
 
+        # 9. POST /uipath/maestro-investigation
+        print("\n9. Testing POST /uipath/maestro-investigation...")
+        maestro_payload = {
+            "customer_id": "CUST-001",
+            "transaction_id": "TX-MAESTRO-001",
+            "amount_cop": 2400000,
+            "evidence_quality": "clear",
+            "reported_reason": "Customer reports unauthorized high-value instant payment with inconsistent receiver information",
+            "simulate_receiver_failure": "conflicting_response",
+            "source": "uipath-maestro"
+        }
+        r = requests.post(f"{base_url}/uipath/maestro-investigation", json=maestro_payload)
+        res = r.json()
+        if r.status_code == 200 and res.get("status") == "waiting_for_human" and res.get("human_review_required") == True:
+            maestro_case_id = res.get("case_id")
+            print("PASS", maestro_case_id)
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+            return
+
+        # 10. GET /uipath/maestro-export/{case_id}
+        print(f"\n10. Testing GET /uipath/maestro-export/{maestro_case_id}...")
+        r = requests.get(f"{base_url}/uipath/maestro-export/{maestro_case_id}")
+        if r.status_code == 200 and r.json().get("case_id") == maestro_case_id:
+            print("PASS")
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+
     except Exception as e:
         print(f"Exception during tests: {e}")
         all_passed = False

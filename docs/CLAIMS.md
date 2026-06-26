@@ -13,4 +13,5 @@ This document maps our hackathon claims to the specific evidence artifacts suppo
 | CENTINELA exposes UiPath-friendly endpoints. | `apps/centinela_runtime/main.py` | Supported | Endpoints designed for API Workflow integration. |
 | CENTINELA can force high-risk cases into a human decision state. | `scripts/smoke_test_centinela_runtime.py` | Supported | Deterministic risk thresholds trigger human wait state. |
 | CENTINELA does not use real banking data. | Codebase inspection | Supported | Fully synthetic data generated in-memory. |
-| UiPath connection will be completed in the next step through API Workflow/External Workflow. | Documentation only | Pending | Runtime API is built, ready for connection. |
+| CENTINELA Runtime exposes a single-call Maestro integration endpoint. | `apps/centinela_runtime/main.py` | Supported | Solves the Maestro API Workflow packaging issue by using a direct connector approach. |
+| UiPath connection will be completed in the next step through API Workflow/External Workflow/Connector. | Documentation only | Pending | Runtime API is built, ready for connection. |

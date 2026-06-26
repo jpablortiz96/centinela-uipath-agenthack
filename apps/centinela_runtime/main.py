@@ -130,3 +130,32 @@ def uipath_human_decision(input_data: UiPathHumanDecisionInput):
 @app.get("/uipath/export/{case_id}", response_model=AuditExportOutput)
 def uipath_export(case_id: str):
     return export_case(case_id)
+
+from fastapi import Request
+from .schemas import UiPathMaestroOutput
+
+@app.post("/uipath/maestro-investigation", response_model=UiPathMaestroOutput)
+def uipath_maestro_investigation(input_data: CaseCreateInput, request: Request):
+    input_data.source = "uipath-maestro"
+    
+    # 1. Create case
+    case_data = create_case(input_data)
+    
+    # 2. Run investigation
+    case_data = process_investigation(case_data)
+    
+    # 3. Compact output
+    compact = to_uipath_compact(case_data)
+    
+    # 4. Message
+    msg = "Investigation completed. Human decision required." if compact["human_review_required"] else "Investigation completed. Case auto-resolved."
+    
+    return {
+        **compact,
+        "runtime_url": str(request.base_url).rstrip('/'),
+        "message": msg
+    }
+
+@app.get("/uipath/maestro-export/{case_id}", response_model=AuditExportOutput)
+def uipath_maestro_export(case_id: str):
+    return export_case(case_id)
