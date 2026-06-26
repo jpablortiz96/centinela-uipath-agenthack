@@ -39,6 +39,29 @@ class CaseState(BaseModel):
     risk_level: Optional[str] = None
     recommended_action: Optional[str] = None
     human_decision: Optional[str] = None
+    
+    # SLA Fields
+    sla_target_minutes: Optional[int] = None
+    elapsed_minutes: Optional[int] = None
+    sla_status: Optional[str] = None
+    stage_sla_status: Optional[str] = None
+    
+    # Retry Policy Fields
+    retry_attempts: int = 0
+    max_retries: int = 3
+    
+    # Decision Policy Engine Fields
+    policy_result: Optional[str] = None
+    policy_reasons: Optional[List[str]] = None
+    required_human_gate: Optional[bool] = None
+    
+    # Analyst Brief & Outputs
+    analyst_brief: Optional[str] = None
+    evidence_summary: Optional[str] = None
+    risk_explanation: Optional[str] = None
+    recommended_questions_for_analyst: Optional[List[str]] = None
+    allowed_decisions: Optional[List[str]] = None
+    customer_response_draft: Optional[str] = None
 
 class UiPathCompactOutput(BaseModel):
     case_id: str
@@ -72,5 +95,12 @@ class AuditExportOutput(BaseModel):
     risk_level: Optional[str] = None
     recommended_action: Optional[str] = None
     human_decision: Optional[str] = None
+    
+    case_summary: Optional[Dict[str, Any]] = None
+    risk_summary: Optional[Dict[str, Any]] = None
+    policy_summary: Optional[Dict[str, Any]] = None
+    sla_summary: Optional[Dict[str, Any]] = None
+    analyst_brief: Optional[str] = None
+    customer_response_draft: Optional[str] = None
     timeline: List[Dict[str, Any]]
     limitations_notice: str = "This is a deterministic runtime for UiPath integration. Not a production banking API."

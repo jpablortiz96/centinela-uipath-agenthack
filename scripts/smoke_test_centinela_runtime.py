@@ -154,8 +154,44 @@ def main():
         # 12. GET /uipath/maestro-export-latest
         print("\n12. Testing GET /uipath/maestro-export-latest...")
         r = requests.get(f"{base_url}/uipath/maestro-export-latest")
-        if r.status_code == 200 and r.json().get("case_id") == maestro_default_case_id:
-            print("PASS")
+        if r.status_code == 200:
+            export_data = r.json()
+            if export_data.get("case_id") == maestro_default_case_id:
+                # Verify hardening fields
+                if all(k in export_data for k in ["policy_summary", "sla_summary", "analyst_brief", "customer_response_draft"]):
+                    print("PASS (with hardening fields)")
+                else:
+                    print("FAIL: Missing hardening fields in export", export_data)
+                    all_passed = False
+            else:
+                print("FAIL", r.text)
+                all_passed = False
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+
+        # 13. GET /uipath/maestro-api-down-default
+        print("\n13. Testing GET /uipath/maestro-api-down-default...")
+        r = requests.get(f"{base_url}/uipath/maestro-api-down-default")
+        res = r.json()
+        if r.status_code == 200 and res.get("status") == "waiting_for_human" and res.get("human_review_required") == True:
+            api_down_case_id = res.get("case_id")
+            print("PASS", api_down_case_id)
+        else:
+            print("FAIL", r.text)
+            all_passed = False
+
+        # 14. Verify api_down audit events
+        print(f"\n14. Testing GET /cases/{api_down_case_id}/audit for retry events...")
+        r = requests.get(f"{base_url}/cases/{api_down_case_id}/audit")
+        if r.status_code == 200:
+            audit = r.json()
+            event_types = [event.get("event_type") for event in audit]
+            if "ReceiverBankRetryAttempted" in event_types and "ReceiverBankRetryExhausted" in event_types:
+                print("PASS (Found retry events)")
+            else:
+                print("FAIL: Missing retry events", event_types)
+                all_passed = False
         else:
             print("FAIL", r.text)
             all_passed = False

@@ -15,8 +15,25 @@ def run_fraud_investigation(case_data: Dict[str, Any]) -> Dict[str, Any]:
     txn_details = core_banking.get_transaction_details(case_data["customer_id"], case_data["transaction_id"])
     log_event(case_id, "CoreBankingCheck", txn_details)
     
-    # 2. Call Receiver Bank
-    receiver_status = receiver_bank.check_receiver_status(case_data.get("simulate_receiver_failure", "none"))
+    # 2. Call Receiver Bank with Retries
+    simulate_failure = case_data.get("simulate_receiver_failure", "none")
+    receiver_status = None
+    
+    if simulate_failure in ["api_down", "receiver_bank_api_down"]:
+        case_data["max_retries"] = 3
+        while case_data.get("retry_attempts", 0) < case_data["max_retries"]:
+            case_data["retry_attempts"] = case_data.get("retry_attempts", 0) + 1
+            log_event(case_id, "ReceiverBankRetryScheduled", {"attempt": case_data["retry_attempts"]})
+            log_event(case_id, "ReceiverBankRetryAttempted", {"attempt": case_data["retry_attempts"]})
+            
+            # Still fails deterministically
+            receiver_status = receiver_bank.check_receiver_status("receiver_bank_api_down")
+            if case_data["retry_attempts"] == case_data["max_retries"]:
+                log_event(case_id, "ReceiverBankRetryExhausted", {"max_retries": case_data["max_retries"]})
+                break
+    else:
+        receiver_status = receiver_bank.check_receiver_status(simulate_failure)
+    
     log_event(case_id, "ReceiverBankCheck", receiver_status)
     
     # Calculate Risk deterministically
@@ -33,7 +50,7 @@ def run_fraud_investigation(case_data: Dict[str, Any]) -> Dict[str, Any]:
     else:
         if receiver_status.get("account_flagged"):
             risk_score += 50
-        if case_data.get("simulate_receiver_failure") == "conflicting_evidence":
+        if simulate_failure == "conflicting_evidence":
             risk_score += 60
             
     if case_data["evidence_quality"] == "low":

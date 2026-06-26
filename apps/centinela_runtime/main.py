@@ -85,6 +85,29 @@ def export_case(case_id: str):
         "risk_level": case_data.get("risk_level"),
         "recommended_action": case_data.get("recommended_action"),
         "human_decision": case_data.get("human_decision"),
+        "case_summary": {
+            "customer_id": case_data.get("customer_id"),
+            "transaction_id": case_data.get("transaction_id"),
+            "amount_cop": case_data.get("amount_cop")
+        },
+        "risk_summary": {
+            "evidence_quality": case_data.get("evidence_quality"),
+            "risk_score": case_data.get("risk_score"),
+            "risk_level": case_data.get("risk_level")
+        },
+        "policy_summary": {
+            "policy_result": case_data.get("policy_result"),
+            "policy_reasons": case_data.get("policy_reasons", []),
+            "required_human_gate": case_data.get("required_human_gate")
+        },
+        "sla_summary": {
+            "sla_target_minutes": case_data.get("sla_target_minutes"),
+            "elapsed_minutes": case_data.get("elapsed_minutes"),
+            "sla_status": case_data.get("sla_status"),
+            "stage_sla_status": case_data.get("stage_sla_status")
+        },
+        "analyst_brief": case_data.get("analyst_brief"),
+        "customer_response_draft": case_data.get("customer_response_draft"),
         "timeline": audit,
         "limitations_notice": "This is a deterministic runtime for UiPath integration. Not a production banking API."
     }
@@ -198,3 +221,32 @@ def uipath_maestro_export_latest():
     # The last appended case should be at the end of the list
     latest_case_id = cases[-1]["case_id"]
     return export_case(latest_case_id)
+
+@app.get("/uipath/maestro-api-down-default", response_model=UiPathMaestroOutput)
+def uipath_maestro_api_down_default():
+    input_data = CaseCreateInput(
+        customer_id="CUST-002",
+        transaction_id="TX-MAESTRO-APIDOWN-001",
+        amount_cop=500000,
+        evidence_quality="high",
+        reported_reason="Testing receiver bank API down scenario.",
+        simulate_receiver_failure="api_down",
+        source="uipath-maestro-test"
+    )
+    
+    # 1. Create case
+    case_data = create_case(input_data)
+    
+    # 2. Run investigation (which will retry 3 times and fail)
+    case_data = process_investigation(case_data)
+    
+    # 3. Compact output
+    compact = to_uipath_compact(case_data)
+    
+    # 4. Message
+    msg = "Investigation completed. Human decision required." if compact["human_review_required"] else "Investigation completed. Case auto-resolved."
+    
+    return {
+        **compact,
+        "message": msg
+    }

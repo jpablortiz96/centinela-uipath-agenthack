@@ -27,8 +27,12 @@ Most agents work in the happy path, but fraud investigation is inherently comple
 ## Evidence-First Approach
 We prioritize an evidence-first approach, generating robust synthetic data and simulating real-world failures to demonstrate the resilience of the system before fully connecting the UI and banking APIs.
 
-## Current Status
-**Step 1 Foundation**: The initial repository foundation is built. Synthetic data and chaos simulation scripts are available. It is *not yet* connected to UiPath Labs.
+## Current Integration Status
+- Published Maestro Case v1.0.0.
+- Runtime API publicly deployed on Render.
+- Maestro connector validated in Debug mode in the cloud.
+- Connected publish is currently blocked by a UiPath Labs connector packaging issue (see `docs/UIPATH_PRODUCT_FEEDBACK.md`).
+- Runtime hardening v2 is available, introducing retry mechanics, deterministic SLA calculation, and policy-driven human gating.
 
 ## Setup Instructions
 1. Clone the repository.

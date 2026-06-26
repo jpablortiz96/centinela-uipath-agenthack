@@ -15,4 +15,9 @@ This document maps our hackathon claims to the specific evidence artifacts suppo
 | CENTINELA does not use real banking data. | Codebase inspection | Supported | Fully synthetic data generated in-memory. |
 | CENTINELA Runtime exposes a single-call Maestro integration endpoint. | `apps/centinela_runtime/main.py` | Supported | Solves the Maestro API Workflow packaging issue by using a direct connector approach. |
 | CENTINELA exposes a no-body Maestro connector endpoint to support direct UiPath Maestro integration. | `apps/centinela_runtime/main.py` | Supported | Workarounds UiPath Integration Services body serialization bugs. |
-| UiPath connection will be completed in the next step through API Workflow/External Workflow/Connector. | Documentation only | Pending | Runtime API is built, ready for connection. |
+| CENTINELA implements deterministic api-down retry handling. | `apps/centinela_runtime/services/fraud_investigation.py` | Supported | Retries up to 3 times before escalating. |
+| CENTINELA uses a decision policy engine for human gating. | `apps/centinela_runtime/services/case_management.py` | Supported | Forces human review for critical risk or receiver conflict. |
+| CENTINELA calculates SLA status deterministically. | `apps/centinela_runtime/services/case_management.py` | Supported | Included in export payload. |
+| CENTINELA generates deterministic Analyst Briefs and Customer Response Drafts. | `apps/centinela_runtime/services/case_management.py` | Supported | Elevates the realism of the human decision stage. |
+| CENTINELA UiPath debug connector integration was successful. | Code/Logs | Supported | Maestro executed the connector activity in Debug mode on cloud. |
+| Connected Maestro solution publish is blocked by UiPath Labs limitation. | `docs/UIPATH_PRODUCT_FEEDBACK.md` | Pending UiPath Fix | Packaging fails with 'elements unknown' for custom connectors. |
