@@ -17,11 +17,11 @@
     <main class="container">
         <!-- Architecture Strip -->
         <section class="panel architecture-strip">
-            <div class="flow-step">UiPath Maestro Case</div> <span class="arrow">→</span>
-            <div class="flow-step">Integration Service Connector</div> <span class="arrow">→</span>
-            <div class="flow-step highlight">CENTINELA Runtime API</div> <span class="arrow">→</span>
-            <div class="flow-step highlight">Fraud Policy Engine</div> <span class="arrow">→</span>
-            <div class="flow-step highlight">Human Decision</div> <span class="arrow">→</span>
+            <div class="flow-step">UiPath Maestro Case</div> <span class="arrow">-></span>
+            <div class="flow-step">Integration Service Connector</div> <span class="arrow">-></span>
+            <div class="flow-step highlight">CENTINELA Runtime API</div> <span class="arrow">-></span>
+            <div class="flow-step highlight">Fraud Policy Engine</div> <span class="arrow">-></span>
+            <div class="flow-step highlight">Human Decision</div> <span class="arrow">-></span>
             <div class="flow-step">Audit Export</div>
         </section>
 
@@ -70,7 +70,7 @@
                     <strong>UiPath connected debug evidence note:</strong> The UiPath Maestro case is fully integrated and successfully runs the Runtime API via Integration Service during a connected debug session.
                 </div>
                 <div class="note warning">
-                    <strong>Product feedback note:</strong> We are unable to successfully publish the completed Studio Web project to the UiPath Orchestrator or run it outside of debug mode due to a UiPath Labs custom connector packaging limitation ("Failed to download connector"). We have pivoted to this Judge Replay and Analyst Console to demonstrate our API's readiness.
+                    <strong>Connected publish limitation:</strong> The connected Maestro + custom connector flow runs successfully in cloud debug. Publishing the connected version is currently blocked by a UiPath Labs custom connector packaging/export limitation. The published Maestro Case v1.0.0, connected debug evidence, public Runtime API, Analyst Console, and Judge Replay remain available for evaluation.
                 </div>
 
                 <h3 style="margin-top:20px;">Execution Log</h3>

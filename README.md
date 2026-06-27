@@ -1,9 +1,14 @@
 # CENTINELA — Agentic Fraud Dispute Case Manager for Instant Payments
 
-## Overview
-**CENTINELA** is an agentic fraud dispute case manager for instant payments. 
+## Judge Quick Start
+If you are evaluating this project, please start here:
+1. **What to open first:** Go to our [Judge Replay Mode](https://centinela-uipath-agenthack.onrender.com/judge).
+2. **What to click in Judge Replay:** Use the step-by-step buttons or the 'Run Full Replay' button to walk through the complete fraud case lifecycle.
+3. **How UiPath was used:** UiPath Maestro Case is our orchestration layer, routing tasks between Investigation, Human Decision, Resolution, and Audit Export. It calls our CENTINELA Runtime API via Integration Service.
+4. **Publish limitation:** The connected Maestro case executes successfully in cloud debug mode. However, publishing the connected version is blocked by a UiPath Labs custom connector packaging issue (detailed in `docs/UIPATH_PRODUCT_FEEDBACK.md`).
+5. **Where evidence is stored:** See `docs/UIPATH_EVIDENCE_PACK.md` for a complete list of screenshots, logs, and artifacts proving our execution.
 
-In a LATAM banking context, when a customer reports a suspicious transfer and provides evidence (e.g., a receipt, bank statement screenshot, or chat screenshot), the process of investigating the fraud claim is often disjointed and manual. 
+## Overview 
 
 CENTINELA orchestrates this long-running case using UiPath Maestro Case, agents, mock banking APIs, human approval gates, retries, exception handling, and auditability. It proves what happens when a real banking case breaks — and how UiPath keeps it alive until resolution.
 
