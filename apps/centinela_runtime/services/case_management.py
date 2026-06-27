@@ -39,7 +39,7 @@ def generate_analyst_brief(case_data: Dict[str, Any]) -> None:
     
     brief = f"This case reached {risk_level} risk because {reason_str.lower()}."
     if case_data.get("required_human_gate"):
-        brief += f" CENTINELA escalated the case to {stage} according to policy."
+        brief += f" CENTINELA escalated the case to Human Decision according to policy."
     else:
         brief += f" CENTINELA auto-resolved the case according to policy."
         
@@ -65,9 +65,10 @@ def generate_analyst_brief(case_data: Dict[str, Any]) -> None:
         case_data["risk_explanation"] += f" Policy triggers: {', '.join(reasons)}."
         
     case_data["recommended_questions_for_analyst"] = [
-        "Did the user authorize this transaction?", 
-        "Is the receiver account legitimate?",
-        "Are there multiple failed API calls to the receiver bank?"
+        "Was the customer identity verified?", 
+        "Does the customer evidence match the disputed transaction?",
+        "Was the receiver bank unavailable after all retry attempts?",
+        "Should the refund be approved, rejected, or escalated to fraud operations?"
     ]
     case_data["allowed_decisions"] = ["approve_refund", "reject_refund", "request_more_evidence", "escalate_fraud_ops"]
 

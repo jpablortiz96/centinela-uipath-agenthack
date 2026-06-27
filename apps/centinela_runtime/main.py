@@ -331,8 +331,12 @@ def analyst_get_cases():
     reversed_cases = reversed(cases)
     result = []
     for c in reversed_cases:
+        case_id = c.get("case_id")
+        audit = get_case_audit(case_id)
+        retries = len([ev for ev in audit if ev.get("event_type") == "ReceiverBankRetryAttempted"])
+        
         result.append({
-            "case_id": c.get("case_id"),
+            "case_id": case_id,
             "status": c.get("status"),
             "current_stage": c.get("current_stage"),
             "customer_id": c.get("customer_id"),
@@ -342,7 +346,8 @@ def analyst_get_cases():
             "risk_level": c.get("risk_level"),
             "human_decision": c.get("human_decision"),
             "created_at": c.get("created_at"),
-            "source": c.get("source")
+            "source": c.get("source"),
+            "retry_attempts": retries
         })
     return result
 

@@ -37,6 +37,14 @@ async function fetchCases() {
         tbody.innerHTML = '';
         
         cases.forEach(c => {
+            const retries = c.retry_attempts !== undefined ? c.retry_attempts : 0;
+            let retryText = retries.toString();
+            if (retries >= 3) {
+                retryText = '3 / 3 (Exhausted)';
+            } else if (retries === 0) {
+                retryText = '0';
+            }
+            
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${c.case_id}</td>
@@ -45,6 +53,7 @@ async function fetchCases() {
                 <td><span class="${getRiskColor(c.risk_level)}">${c.risk_level || '--'}</span></td>
                 <td>${c.human_decision || '--'}</td>
                 <td>${c.source || '--'}</td>
+                <td>${retryText}</td>
                 <td><button class="btn btn-small" onclick="viewCase('${c.case_id}')">View</button></td>
             `;
             tbody.appendChild(tr);
@@ -190,15 +199,37 @@ function renderCaseDetail(data) {
     
     const qList = document.getElementById('detail-questions');
     qList.innerHTML = '';
-    if (data.recommended_questions_for_analyst) {
-        data.recommended_questions_for_analyst.forEach(q => {
-            const li = document.createElement('li');
-            li.textContent = q;
-            qList.appendChild(li);
-        });
+    
+    // Check if questions exist and are populated, otherwise use deterministic defaults
+    let questions = data.recommended_questions_for_analyst;
+    if (!questions || questions.length === 0) {
+        questions = [
+            "Was the customer identity verified?",
+            "Does the customer evidence match the disputed transaction?",
+            "Was the receiver bank unavailable after all retry attempts?",
+            "Should the refund be approved, rejected, or escalated to fraud operations?"
+        ];
     }
     
-    document.getElementById('detail-allowed-decisions').textContent = data.allowed_decisions ? data.allowed_decisions.join(', ') : '--';
+    questions.forEach(q => {
+        const li = document.createElement('li');
+        li.textContent = q;
+        qList.appendChild(li);
+    });
+    
+    const allowedDecisionsEl = document.getElementById('detail-allowed-decisions');
+    allowedDecisionsEl.innerHTML = '';
+    if (data.allowed_decisions && data.allowed_decisions.length > 0) {
+        data.allowed_decisions.forEach(dec => {
+            const span = document.createElement('span');
+            span.className = 'badge badge-external'; // Reuse visual style
+            span.style.marginRight = '5px';
+            span.textContent = dec;
+            allowedDecisionsEl.appendChild(span);
+        });
+    } else {
+        allowedDecisionsEl.textContent = '--';
+    }
     
     // Customer Draft
     document.getElementById('detail-customer-draft').innerHTML = data.customer_response_draft ? `<p>${data.customer_response_draft}</p>` : '<p>No draft available.</p>';
