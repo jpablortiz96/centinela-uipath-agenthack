@@ -1,220 +1,281 @@
 # CENTINELA — UiPath-Governed Fraud Dispute Intelligence
 
-Agentic case management for instant-payment fraud disputes: Maestro orchestrates the case, CENTINELA Runtime investigates, humans decide, and every step is auditable.
+Agentic case management for instant-payment fraud disputes: UiPath Maestro orchestrates the case, CENTINELA Runtime investigates, humans decide, and every step is auditable.
 
 ![Track: UiPath Maestro Case](https://img.shields.io/badge/Track-UiPath%20Maestro%20Case-blue)
 ![Runtime: Live on Render](https://img.shields.io/badge/Runtime-Live%20on%20Render-success)
-![UiPath: Maestro + Integration Service Connector + Human Tasks + SLAs](https://img.shields.io/badge/UiPath-Maestro%20%2B%20Integration%20Service%20Connector%20%2B%20Human%20Tasks%20%2B%20SLAs-orange)
-![Status: Connected Debug Validated](https://img.shields.io/badge/Status-Connected%20Debug%20Validated-brightgreen)
+![UiPath: Maestro + Integration Service + Human Tasks + SLAs](https://img.shields.io/badge/UiPath-Maestro%20%2B%20Integration%20Service%20%2B%20Human%20Tasks%20%2B%20SLAs-orange)
+![Execution: Connected Cloud Debug Validated](https://img.shields.io/badge/Execution-Connected%20Cloud%20Debug%20Validated-brightgreen)
+![Evidence: Public Smoke Tests](https://img.shields.io/badge/Evidence-Public%20Smoke%20Tests-blueviolet)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green)
 
-### Core Links
-*   **[Judge Replay](https://centinela-uipath-agenthack.onrender.com/judge)**
-*   **[Analyst Console](https://centinela-uipath-agenthack.onrender.com/analyst)**
-*   **[Runtime Health](https://centinela-uipath-agenthack.onrender.com/health)**
-*   **[OpenAPI](https://centinela-uipath-agenthack.onrender.com/openapi.json)**
-*   **[UiPath Evidence Pack](docs/UIPATH_EVIDENCE_PACK.md)**
-*   **[Product Feedback](docs/UIPATH_PRODUCT_FEEDBACK.md)**
-*   **[Devpost Submission](https://devpost.com/)** *(Placeholder)*
+CENTINELA is not an AI that approves refunds. It is a governed fraud case-management system where UiPath coordinates the lifecycle, the Runtime investigates, policy controls escalation, and humans remain accountable for financial decisions.
+
+| Resource | Link |
+| :--- | :--- |
+| **Judge Replay** | [https://centinela-uipath-agenthack.onrender.com/judge](https://centinela-uipath-agenthack.onrender.com/judge) |
+| **Analyst Console** | [https://centinela-uipath-agenthack.onrender.com/analyst](https://centinela-uipath-agenthack.onrender.com/analyst) |
+| **Runtime Health** | [https://centinela-uipath-agenthack.onrender.com/health](https://centinela-uipath-agenthack.onrender.com/health) |
+| **OpenAPI** | [https://centinela-uipath-agenthack.onrender.com/openapi.json](https://centinela-uipath-agenthack.onrender.com/openapi.json) |
+| **GitHub Repo** | [https://github.com/jpablortiz96/centinela-uipath-agenthack](https://github.com/jpablortiz96/centinela-uipath-agenthack) |
+| **UiPath Evidence Pack** | [docs/UIPATH_EVIDENCE_PACK.md](docs/UIPATH_EVIDENCE_PACK.md) |
+| **Product Feedback** | [docs/UIPATH_PRODUCT_FEEDBACK.md](docs/UIPATH_PRODUCT_FEEDBACK.md) |
+| **Runtime Architecture** | [docs/RUNTIME_ARCHITECTURE.md](docs/RUNTIME_ARCHITECTURE.md) |
+| **Claims** | [docs/CLAIMS.md](docs/CLAIMS.md) |
 
 ---
 
-## 60-Second Judge Quick Start
+## Judge Quick Start — 60 Seconds
 
-| Step | Open | What to verify |
-| :--- | :--- | :--- |
-| 1 | [Judge Replay URL](https://centinela-uipath-agenthack.onrender.com/judge) | Run full replay: API-down case -> retries -> human decision -> audit export |
-| 2 | [Analyst Console URL](https://centinela-uipath-agenthack.onrender.com/analyst) | See Priority Queue, Fraud Network, Decision Simulator, Evidence Checklist |
-| 3 | [UiPath Evidence Pack](docs/UIPATH_EVIDENCE_PACK.md) | Verify Maestro Case, stages, connector debug, publish limitation |
-| 4 | [OpenAPI](https://centinela-uipath-agenthack.onrender.com/openapi.json) | Verify public Runtime endpoints |
-| 5 | GitHub `evidence/` folder | Verify smoke logs and screenshots |
-
----
-
-## Why This Matters
-
-*   Instant payments create fast-moving fraud disputes that cannot wait days for review.
-*   Banks need fast triage, explainable risk, human accountability, retry handling, SLA control, and auditability.
-*   Many AI demos automatically make decisions with financial impact; **CENTINELA keeps humans responsible for financial impact** while automating the deep investigation and data assembly.
+| Step | Open | What to verify | Why it matters |
+| :--- | :--- | :--- | :--- |
+| 1 | [Judge Replay](https://centinela-uipath-agenthack.onrender.com/judge) | Run full replay: API-down case -> retries -> human decision -> audit export | Verifies the full end-to-end lifecycle safely and reproducibly. |
+| 2 | [Analyst Console](https://centinela-uipath-agenthack.onrender.com/analyst) | Inspect priority queue, fraud network, decision simulator | Verifies the operational product surface and intelligence layers. |
+| 3 | [Runtime Health](https://centinela-uipath-agenthack.onrender.com/health) / [OpenAPI](https://centinela-uipath-agenthack.onrender.com/openapi.json) | Verify public API availability | Proves the Runtime API is deployed and responding. |
+| 4 | [UiPath Evidence Pack](docs/UIPATH_EVIDENCE_PACK.md) | Verify Maestro Case and connected cloud debug | Proves real UiPath integration and identifies the scope of execution. |
+| 5 | `evidence/` folder | Verify smoke tests/screenshots/logs | Proves the system passes automated validation tests. |
+| 6 | [Product Feedback](docs/UIPATH_PRODUCT_FEEDBACK.md) | Verify real use of UiPath Labs and documented platform feedback | Demonstrates deep engagement with the UiPath platform and provides valuable product insights. |
 
 ---
 
-## What CENTINELA Does
+## The Problem
 
-*   Creates a fraud dispute case.
-*   Runs a receiver bank investigation.
-*   Handles receiver API down states with a deterministic retry policy.
-*   Applies a fraud policy engine.
-*   Forces high-risk cases to a Human Decision gate.
-*   Applies the human decision to the case.
-*   Exports an immutable audit package.
-*   Shows deterministic fraud intelligence in an Analyst Console.
-*   Offers a Judge Replay mode for safe, reliable evaluation.
+Instant payments move faster than traditional fraud operations. When a customer disputes a transaction, the evidence is often incomplete, external bank APIs are sometimes unreachable, receiver information conflicts, and the customer demands rapid resolution.
 
----
+Fully autonomous AI decisions are risky in financial disputes. Enterprises need governed orchestration, auditable investigation, retry handling, policy-based escalation, and strict human accountability. 
 
-## UiPath is the Control Plane
-
-UiPath acts as the governance and orchestration layer.
-
-*   **UiPath Maestro Case** models the dynamic case lifecycle.
-*   **Human tasks** represent Intake, Evidence Review, and Human Decision.
-*   **SLAs and routing rules** govern the lifecycle timeline.
-*   **Integration Service Connector Activity** invokes the CENTINELA Runtime API during Investigation, Resolution, and Audit Export in connected cloud debug.
-*   **Orchestrator/Studio Web** were used to execute/debug the solution.
-*   UiPath remains the orchestration/governance layer; CENTINELA Runtime is the deterministic external fraud investigation agent/service.
-
-| UiPath Component | How CENTINELA uses it | Evidence |
-| :--- | :--- | :--- |
-| Maestro Case | case stages, SLAs, human tasks | screenshot/log |
-| Integration Service Connector | Runtime API calls | screenshot/log |
-| Studio Web Debug on cloud | connected execution validation | screenshot/log |
-| Orchestrator/Solutions | published Maestro Case v1.0.0 | screenshot/log |
-| Human Actions | manual accountability gates | case flow |
+### Why traditional automation is not enough:
+*   Static workflows fail when external systems (like receiver bank APIs) are unavailable or timeout.
+*   Pure AI agents are hard to govern, prone to hallucination, and risky when financial impact is involved.
+*   Manual case handling is slow, inconsistent, and expensive.
+*   **CENTINELA combines the best of all worlds: UiPath orchestration, deterministic investigation, policy gates, and human review.**
 
 ---
 
-## Architecture
+## The Solution
+
+CENTINELA solves this through a hybrid agentic architecture:
+*   **UiPath Maestro** governs the dynamic case lifecycle and SLAs.
+*   **CENTINELA Runtime** investigates fraud signals and external bank responses as a coded agent.
+*   **Retry policy** handles receiver bank API failure deterministically.
+*   **Policy engine** forces critical or unresolvable cases into human decision.
+*   **Analyst Console and Judge Replay** make the system inspectable, reproducible, and operationally viable.
+
+### What happens in the main scenario:
+1. A fraud dispute is created.
+2. Receiver bank API fails (API Down).
+3. Runtime retries 3 times.
+4. Retry exhaustion triggers a "critical" risk status.
+5. Policy engine requires a human gate.
+6. Human decision approves refund.
+7. Resolution is applied.
+8. Audit package is exported.
+9. Analyst Console shows priority, network, evidence, and decision simulator.
+
+---
+
+## UiPath Is the Control Plane
+
+UiPath Maestro is not decorative in this architecture—it is the authoritative control plane.
+
+*   Maestro models and governs the case lifecycle from start to finish.
+*   Maestro controls stage progression, human tasks, SLAs, and case transitions.
+*   Integration Service connector activities invoke the Runtime API from the case flow during connected debug.
+*   UiPath keeps humans accountable at key decision points.
+*   CENTINELA Runtime is the external coded investigation service/agent that Maestro orchestrates.
+
+| UiPath Component | How CENTINELA uses it | Why it matters | Evidence |
+| :--- | :--- | :--- | :--- |
+| Maestro Case | Defines case stages, SLAs, human tasks | Provides the core governance framework. | `evidence/manual-screenshots/step12_maestro_case_published.png` |
+| Human Actions | Manual accountability gates | Ensures humans make financial decisions. | `evidence/manual-screenshots/step8_maestro_case_stages.png` |
+| SLAs | Deadlines for resolution | Drives case prioritization. | `evidence/manual-screenshots/step10_maestro_case_slas.png` |
+| Routing / Stages | Intake -> Evidence -> Investigation -> Decision -> Resolution -> Audit | Maps the real-world operational flow. | `evidence/manual-screenshots/step8_maestro_case_stages.png` |
+| Integration Service Connector Activity | Invokes Runtime API for investigation and resolution | Connects UiPath to external agents safely. | `evidence/manual-screenshots/step20_maestro_connector_successful_debug.png` |
+| Studio Web Debug on cloud | Validates connected execution | Proves the connector integration works. | `evidence/manual-screenshots/step28_maestro_end_to_end_connected_debug.png` |
+| Orchestrator / Solutions | Deployment target | Proves platform readiness. | `evidence/manual-screenshots/step12_orchestrator_deployment_active.png` |
+| Published Maestro Case v1.0.0 | The published definition of the case | Proves completion of the core Maestro design. | `evidence/manual-screenshots/step12_maestro_case_published.png` |
+
+---
+
+## Architecture Overview
 
 ```mermaid
 flowchart LR
-A[UiPath Maestro Case] --> B[Integration Service Connector]
-B --> C[CENTINELA Runtime API]
-C --> D[Fraud Investigation Agent]
-C --> E[Core Banking Adapter]
-C --> F[Receiver Bank Adapter]
-C --> G[Policy Engine]
-G --> H[Human Decision Gate]
-H --> I[Resolution]
-I --> J[Audit Export v2]
-C --> K[Analyst Console]
-C --> L[Judge Replay]
+U[UiPath Maestro Case] --> H1[Human Task: Intake]
+H1 --> H2[Human Task: Evidence Review]
+H2 --> IC[Integration Service Connector Activity]
+IC --> R[CENTINELA Runtime API]
+R --> FA[Fraud Investigation Agent]
+R --> CB[Core Banking Adapter]
+R --> RB[Receiver Bank Adapter]
+RB --> RP[Retry Policy]
+R --> PE[Fraud Policy Engine]
+PE --> HG[Human Decision Gate]
+HG --> RES[Resolution]
+RES --> AE[Audit Export v2]
+R --> AC[Analyst Console]
+R --> JR[Judge Replay]
 ```
 
-*   **Maestro Case** drives the workflow state machine.
-*   **Integration Service** handles the HTTP transport via connector activities.
-*   **CENTINELA Runtime API** receives requests, aggregates intelligence from deterministic adapters, enforces policies, and surfaces UIs.
-*   **Analyst Console and Judge Replay** pull directly from the Runtime API for live operations monitoring.
+### Runtime Architecture
+```mermaid
+flowchart TD
+A[Case Input] --> B[Case Store]
+B --> C[Investigation Service]
+C --> D[Core Banking Adapter]
+C --> E[Receiver Bank Adapter]
+E --> F[Retry Policy]
+C --> G[Risk Scoring]
+G --> H[Policy Engine]
+H --> I[Priority Scoring]
+H --> J[Fraud Network Graph]
+H --> K[Decision Simulator]
+H --> L[Evidence Checklist]
+I --> M[Audit Export v2]
+J --> M
+K --> M
+L --> M
+```
 
 ---
 
 ## Case Lifecycle
 
-| Stage | Actor | What happens | Real capability |
-| :--- | :--- | :--- | :--- |
-| Intake | Human / Maestro | Capture fraud report | human task |
-| Evidence Review | Human / Maestro | Validate evidence | human task |
-| Investigation | Maestro + Runtime | API-down, retries, risk scoring | connector + runtime |
-| Human Decision | Human / Maestro | Decide financial outcome | human accountability |
-| Resolution | Maestro + Runtime | Apply decision | no-body connector endpoint |
-| Audit Export | Maestro + Runtime | Export audit package | evidence |
+| Stage | Actor | UiPath Role | Runtime Role | Output | Human Accountability |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Intake** | Human / Maestro | Orchestrates form & queue | N/A | Fraud report captured | High |
+| **Evidence Review** | Human / Maestro | Orchestrates validation | N/A | Evidence validated | High |
+| **Investigation** | Maestro + Runtime | Triggers connector activity | Executes API-down logic, retries, and risk scoring | Investigation complete, risk assessed | Low (Automated) |
+| **Human Decision** | Human / Maestro | Orchestrates human approval task | Enforces policy gate requiring human | Decision (Refund/Reject) | **Critical** |
+| **Resolution** | Maestro + Runtime | Triggers resolution endpoint | Applies the financial decision | Case marked resolved | Low (Automated execution of human intent) |
+| **Audit Export** | Maestro + Runtime | Triggers export endpoint | Generates the immutable v2 audit package | Audit package retrieved | Low (Automated) |
+
+---
+
+## Runtime Capabilities
+
+### 8.1 Deterministic Fraud Investigation Agent
+CENTINELA Runtime operates as a coded deterministic agent/service, not an uncontrolled LLM. It executes specific investigative strategies based on the case state, ensuring reproducible and auditable results.
+
+### 8.2 Banking Adapters
+The Core Banking Adapter and Receiver Bank Adapter are synthetic, deterministic adapters built for safe hackathon evaluation. They are designed using enterprise patterns (e.g., dependency injection) so they can be seamlessly replaced with real banking APIs in a production environment.
+
+### 8.3 Retry Policy
+The Runtime gracefully handles external system failures. It emits specific retry events:
+*   `ReceiverBankRetryScheduled`
+*   `ReceiverBankRetryAttempted`
+*   `ReceiverBankRetryExhausted`
+
+### 8.4 Policy Engine
+The policy engine evaluates the risk and state of the case to determine the next action:
+*   Critical risk always requires a human decision.
+*   Receiver bank API down (after retries exhausted) always requires a human decision.
+*   Refund/funds-freeze outcomes always require a human decision.
+*   Low-risk cases may auto-resolve based on policy thresholds.
+
+### 8.5 SLA Status
+The runtime deterministically calculates SLAs: `within_sla`, `at_risk`, and `breached`.
+
+### 8.6 Audit Export v2
+The runtime generates a comprehensive, immutable JSON export containing:
+`case_summary`, `risk_summary`, `policy_summary`, `sla_summary`, `analyst_brief`, `customer_response_draft`, `timeline`, `limitations_notice`, `fraud_network`, `priority_summary`, `decision_simulator`, `evidence_checklist`, and `linked_case_signals`.
 
 ---
 
 ## Fraud Intelligence Layer
 
-CENTINELA surfaces a powerful set of intelligence features to support the human decision:
+The Fraud Intelligence Layer provides enterprise-grade insights to support, but not replace, the human analyst.
 
-*   **Priority Queue**
-*   **Fraud Network Graph**
-*   **Decision Simulator**
-*   **Evidence Checklist**
-*   **Linked Case Signals**
-*   **SLA / policy / retry summaries**
-*   **Analyst Brief**
-*   **Customer Response Draft**
-
-![Analyst Console v3](evidence/manual-screenshots/step35_analyst_console_v3_render.png)
-
----
-
-## Judge Replay Mode
-
-To facilitate safe, easy, and reproducible evaluation, we built `/judge`:
-
-*   Guided replay for evaluators.
-*   Shows an API-down case, retry exhaustion, critical risk evaluation, human decision application, and final audit export.
-
----
-
-## Runtime API
-
-The public endpoints driving this integration are available on Render.
-
-*   `GET /health`
-*   `GET /judge`
-*   `GET /analyst`
-*   `GET /openapi.json`
-*   `GET /uipath/maestro-api-down-default`
-*   `GET /uipath/maestro-approve-latest`
-*   `GET /uipath/maestro-export-latest`
-*   `GET /api/judge/replay`
-*   `GET /api/analyst/export-latest`
-
-### Local Run & Test Commands
-
-Run the server locally:
-```bash
-python -m uvicorn apps.centinela_runtime.main:app --reload --port 8070
-```
-
-Run local smoke tests:
-```bash
-python scripts/smoke_test_centinela_runtime.py --base-url http://127.0.0.1:8070
-python scripts/smoke_test_analyst_console.py --base-url http://127.0.0.1:8070
-python scripts/smoke_test_judge_replay.py --base-url http://127.0.0.1:8070
-```
-
-Run Render smoke tests:
-```bash
-python scripts/smoke_test_centinela_runtime.py --base-url https://centinela-uipath-agenthack.onrender.com
-python scripts/smoke_test_analyst_console.py --base-url https://centinela-uipath-agenthack.onrender.com
-python scripts/smoke_test_judge_replay.py --base-url https://centinela-uipath-agenthack.onrender.com
-```
-
----
-
-## Evidence and Reproducibility
-
-| Evidence | Path | What it proves |
+| Feature | What it does | Why it matters to enterprise fraud operations |
 | :--- | :--- | :--- |
-| End-to-end Debug | `evidence/manual-screenshots/step28_maestro_end_to_end_connected_debug.png` | Maestro connector executed successfully in the cloud. |
-| Analyst Console v2 | `evidence/manual-screenshots/step29_analyst_console_render.png` | The initial deployment of the console. |
-| Analyst Console v3 | `evidence/manual-screenshots/step35_analyst_console_v3_render.png` | The fully redesigned, enterprise-grade console. |
-| Latest Export JSON | `evidence/logs/step28_maestro_latest_export_after_debug.json` | The final payload pulled by UiPath via Maestro. |
-| Post-Maestro Log | `evidence/logs/step28_post_maestro_render_smoke.txt` | API stability after UiPath execution. |
-| Analyst Console Log | `evidence/logs/step29_analyst_console_render_smoke.txt` | Successful Analyst Console smoke validation. |
-| Runtime Log | `evidence/logs/step37_runtime_render_smoke.txt` | Complete runtime lifecycle validation. |
-| UiPath Evidence Pack | `docs/UIPATH_EVIDENCE_PACK.md` | Aggregated evidence mapping. |
-| Product Feedback | `docs/UIPATH_PRODUCT_FEEDBACK.md` | Detailed bug report for UiPath Labs limitation. |
-| Claims | `docs/CLAIMS.md` | Honest mapping of what works vs what is mocked. |
+| **Priority Queue** | Ranks cases using risk, SLA, retry exhaustion, and amount. | Focuses analysts on the most critical financial risks first. |
+| **Fraud Network Graph** | Connects entities, IP addresses, and devices. | Reveals organized fraud rings instead of isolated incidents. |
+| **Decision Simulator** | Projects the financial and compliance impact of a refund vs. reject decision. | Reduces human error by showing the consequences before action is taken. |
+| **Evidence Checklist** | Validates the presence of required documentation. | Ensures compliance with internal banking regulations. |
+| **Linked Case Signals** | Identifies related active disputes. | Accelerates investigation by surfacing overlapping fraud attempts. |
+| **Analyst Brief** | A deterministic, human-readable summary of the case state. | Reduces cognitive load and investigation time. |
+| **Customer Response Draft** | A pre-drafted communication based on the case decision. | Standardizes customer service and speeds up resolution. |
 
 ---
 
-## Known Limitation and Product Feedback
+## Analyst Console — Operational Fraud Workspace
 
-**Connected publish limitation:** The connected Maestro + custom connector flow runs successfully in cloud debug. Publishing the connected version is currently blocked by a UiPath Labs custom connector packaging/export limitation. The published Maestro Case v1.0.0, connected debug evidence, public Runtime API, Analyst Console, and Judge Replay remain available for evaluation.
+**[https://centinela-uipath-agenthack.onrender.com/analyst](https://centinela-uipath-agenthack.onrender.com/analyst)**
 
-This limitation has been thoroughly documented and provided as structured product feedback in `docs/UIPATH_PRODUCT_FEEDBACK.md`. To ensure reliable execution despite these limitations, CENTINELA utilizes no-body GET endpoints (`/uipath/maestro-*`) to bypass Integration Service body serialization bugs in Labs.
+The Analyst Console provides a real-time operational view into the CENTINELA Runtime. Judges can see:
+*   Executive KPI strip
+*   Priority Queue
+*   Investigation Intelligence
+*   Fraud Network Graph
+*   Decision Simulator
+*   Human Review Pack
+*   Evidence Checklist
+*   Linked Case Signals
+*   Timeline and Raw JSON
 
----
-
-## Why This Is Agentic
-
-*   The Runtime behaves as a deterministic coded investigation agent.
-*   It gathers signals, handles retries autonomously, applies policy, and recommends next actions, but **does not override humans on critical decisions**.
-*   UiPath coordinates the agent/service, human tasks, stages, SLAs, and the final audit.
-*   Humans remain accountable for the actual refund/fraud outcome.
-
----
-
-## Built with Coding-Agent Workflow
-
-CENTINELA was developed using a coding-agent-assisted workflow. The project is structured to demonstrate how coding agents (like Antigravity / Claude) can accelerate enterprise automation development while UiPath governs the actual business execution. Scaffold generation, mock APIs, hardening, and test creation were all heavily accelerated using agentic collaboration.
+![Analyst Console](evidence/manual-screenshots/step35_analyst_console_v3_render.png)
 
 ---
 
-## Installation / Local Development
+## Judge Replay — Guided Evaluation Flow
+
+**[https://centinela-uipath-agenthack.onrender.com/judge](https://centinela-uipath-agenthack.onrender.com/judge)**
+
+Judge Replay provides a safe, guided evaluation flow.
+*   Offers one-click or guided step-by-step replay.
+*   Shows the end-to-end lifecycle safely.
+*   Exposes the business meaning of each API execution step.
+*   Directly links to evidence and product feedback documentation.
+
+![Judge Replay](evidence/manual-screenshots/step36_judge_replay_render.png)
+
+---
+
+## Public Runtime API
+
+| Endpoint | Purpose | Used by |
+| :--- | :--- | :--- |
+| `GET /health` | System health check | Monitoring |
+| `GET /openapi.json` | API Schema | Developers / Judges |
+| `GET /analyst` | Serves the Analyst Console UI | Fraud Analysts |
+| `GET /judge` | Serves the Judge Replay UI | Evaluators |
+| `GET /uipath/maestro-api-down-default` | Starts an API-down case | UiPath Maestro (Integration Service) |
+| `GET /uipath/maestro-approve-latest` | Applies human approval | UiPath Maestro (Integration Service) |
+| `GET /uipath/maestro-export-latest` | Exports audit package | UiPath Maestro (Integration Service) |
+| `GET /api/analyst/run-api-down-case` | Triggers a case for the console | Analyst Console UI |
+| `GET /api/analyst/approve-latest` | Approves a case for the console | Analyst Console UI |
+| `GET /api/analyst/export-latest` | Retrieves case data for the console | Analyst Console UI |
+| `GET /api/judge/replay` | Executes the full guided replay sequence | Judge Replay UI |
+
+Sample command:
+```bash
+curl https://centinela-uipath-agenthack.onrender.com/health
+```
+
+---
+
+## Evidence & Reproducibility
+
+| Evidence | Path | What it proves | Why it matters |
+| :--- | :--- | :--- | :--- |
+| End-to-end Debug | `evidence/manual-screenshots/step28_maestro_end_to_end_connected_debug.png` | Maestro connector executed successfully in cloud debug. | Validates the core integration architecture works on UiPath. |
+| Analyst Console v2 | `evidence/manual-screenshots/step29_analyst_console_render.png` | Successful Analyst Console initial deployment. | Proves UI capabilities are live. |
+| Analyst Console v3 | `evidence/manual-screenshots/step35_analyst_console_v3_render.png` | Polished, enterprise-grade console execution. | Demonstrates strong UX/UI focus. |
+| Judge Replay | `evidence/manual-screenshots/step36_judge_replay_render.png` | Guided evaluation interface is live. | Lowers the barrier to evaluation for judges. |
+| Latest Export JSON | `evidence/logs/step28_maestro_latest_export_after_debug.json` | The final payload pulled by UiPath via Maestro. | Proves the API returns the correct audit structure. |
+| Post-Maestro Log | `evidence/logs/step28_post_maestro_render_smoke.txt` | API stability after UiPath execution. | Validates runtime stability. |
+| Analyst Console Log | `evidence/logs/step29_analyst_console_render_smoke.txt` | Successful Analyst Console smoke validation. | Ensures the UI endpoints are stable. |
+| Runtime Log | `evidence/logs/step37_runtime_render_smoke.txt` | Complete runtime lifecycle validation. | Proves the core logic executes flawlessly. |
+| Analyst Console Run Log | `evidence/logs/step37_analyst_console_render_smoke.txt` | Latest Analyst console validation. | Verifies stability post-updates. |
+| Judge Replay Log | `evidence/logs/step37_judge_replay_render_smoke.txt` | Judge replay validation. | Verifies the replay mechanism works. |
+| UiPath Evidence Pack | `docs/UIPATH_EVIDENCE_PACK.md` | Aggregated evidence mapping. | Centralizes proof for easy review. |
+| Product Feedback | `docs/UIPATH_PRODUCT_FEEDBACK.md` | Detailed bug report for UiPath Labs limitation. | Shows deep platform engagement. |
+| Runtime Architecture | `docs/RUNTIME_ARCHITECTURE.md` | Technical documentation. | Explains the underlying systems. |
+| Claims | `docs/CLAIMS.md` | Honest mapping of what works vs what is mocked. | Establishes trust and transparency. |
+
+---
+
+## Running Locally
 
 1. Clone the repository:
    ```bash
@@ -223,8 +284,11 @@ CENTINELA was developed using a coding-agent-assisted workflow. The project is s
    ```
 2. Create and activate a virtual environment:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # Or venv\Scripts\activate on Windows
+   python -m venv .venv
+   # On Windows:
+   .venv\Scripts\activate
+   # On Mac/Linux:
+   source .venv/bin/activate
    ```
 3. Install dependencies:
    ```bash
@@ -234,30 +298,140 @@ CENTINELA was developed using a coding-agent-assisted workflow. The project is s
    ```bash
    python -m uvicorn apps.centinela_runtime.main:app --reload --port 8070
    ```
-5. Run smoke tests:
-   ```bash
-   python scripts/smoke_test_centinela_runtime.py --base-url http://127.0.0.1:8070
-   ```
-6. Open the operational interfaces:
+5. Open the operational interfaces:
    - [http://127.0.0.1:8070/judge](http://127.0.0.1:8070/judge)
    - [http://127.0.0.1:8070/analyst](http://127.0.0.1:8070/analyst)
+   - [http://127.0.0.1:8070/openapi.json](http://127.0.0.1:8070/openapi.json)
+
+---
+
+## Smoke Tests
+
+Local execution:
+```bash
+python scripts/smoke_test_centinela_runtime.py --base-url http://127.0.0.1:8070
+python scripts/smoke_test_analyst_console.py --base-url http://127.0.0.1:8070
+python scripts/smoke_test_judge_replay.py --base-url http://127.0.0.1:8070
+```
+
+Public Render execution:
+```bash
+python scripts/smoke_test_centinela_runtime.py --base-url https://centinela-uipath-agenthack.onrender.com
+python scripts/smoke_test_analyst_console.py --base-url https://centinela-uipath-agenthack.onrender.com
+python scripts/smoke_test_judge_replay.py --base-url https://centinela-uipath-agenthack.onrender.com
+```
+Passing tests prove that the public API, the intelligence layers, the retry mechanics, and the UIs are fully functional and deterministic.
+
+---
+
+## Deployment
+
+CENTINELA Runtime is deployed continuously on Render.
+*   **Method:** Render Web Service via direct GitHub integration.
+*   **Start Command:** `uvicorn apps.centinela_runtime.main:app --host 0.0.0.0 --port $PORT`
+
+---
+
+## Known Limitation
+
+**Connected publish limitation:** The connected Maestro + custom connector flow runs successfully in cloud debug. Publishing the connected version is currently blocked by a UiPath Labs custom connector packaging/export limitation. The published Maestro Case v1.0.0, connected debug evidence, public Runtime API, Analyst Console, and Judge Replay remain available for evaluation.
+
+This limitation is meticulously documented in `docs/UIPATH_PRODUCT_FEEDBACK.md` with reproduction context, impact, and suggested improvements. We utilized no-body `GET` endpoints to ensure robust execution within the Labs debug environment, bypassing current Integration Service body serialization issues.
+
+---
+
+## Product Feedback
+
+CENTINELA generated highly actionable product feedback for UiPath during the hackathon:
+*   API Workflow publish limitations.
+*   Custom connector packaging/export failures ("elements unknown").
+*   Connector activity body serialization issues in Labs.
+*   Required no-body endpoint workarounds.
+*   Suggested diagnostics and improvements for the platform.
+
+This feedback aims to help harden Maestro Case and Integration Service for enterprise use.
+
+---
+
+## Why This Is Agentic
+
+CENTINELA is deeply agentic because:
+*   It receives a dynamic case context.
+*   It gathers signals automatically from simulated adapters.
+*   It handles external failure and schedules retries autonomously.
+*   It evaluates risk and policy dynamically.
+*   It determines the next required action based on the state.
+*   **It escalates to human review instead of blindly deciding.**
+*   It produces explainable decision support (Simulator, Network, Checklist).
+*   **UiPath coordinates the lifecycle, actors, and accountability.**
+
+**Agentic does not mean autonomous without control. In CENTINELA, agentic means adaptive investigation under UiPath governance.**
+
+---
+
+## Why We Avoided Autonomous Refund Approval
+
+*   Financial decisions require strict human accountability.
+*   The Runtime recommends, explains, and prepares evidence.
+*   UiPath keeps the human securely in the loop.
+*   This approach is far safer, compliance-friendly, and enterprise-ready than autonomous LLM execution.
+
+---
+
+## Built with Coding-Agent Workflow
+
+CENTINELA was built with a coding-agent-assisted engineering workflow (using Antigravity/Claude) and is structured to demonstrate how coding agents can aggressively accelerate enterprise automation development, while UiPath securely governs the final execution. Coding agents were utilized to scaffold the architecture, develop the UIs, harden the APIs, and construct the rigorous test suites.
+
+---
+
+## Repository Structure
+
+| Directory | Purpose |
+| :--- | :--- |
+| `apps/centinela_runtime/` | The core FastAPI backend, UIs, and intelligence logic. |
+| `apps/chaos_console/` | (Legacy/Local) Local orchestration testbed. |
+| `docs/` | Evidence packs, architecture docs, and product feedback. |
+| `evidence/` | Screenshots, JSON exports, and smoke test logs. |
+| `scripts/` | Python smoke test suites for automated validation. |
+
+---
+
+## Security and Production Readiness
+
+Current (Hackathon State):
+*   Synthetic data and deterministic adapters.
+*   JSONL / memory-based lightweight persistence.
+*   Public unauthenticated endpoints for frictionless judge evaluation.
+
+Production Path (Future State):
+*   Authentication and RBAC integration.
+*   Secret management for real API keys.
+*   Real banking API integrations.
+*   Database persistence (PostgreSQL/SQL Server).
+*   PII controls and masking.
+*   Rate limiting and monitoring.
+*   UiPath production tenant deployment using standard, non-Labs connector packaging.
 
 ---
 
 ## Submission Checklist
 
-*   [x] GitHub repo public
-*   [x] MIT license
-*   [x] Runtime public on Render
-*   [x] README complete
-*   [x] UiPath evidence pack
-*   [x] Analyst Console
+*   [x] Public GitHub repo
+*   [x] MIT License
+*   [x] README
+*   [x] Public Runtime API
 *   [x] Judge Replay
+*   [x] Analyst Console
+*   [x] OpenAPI
+*   [x] UiPath Evidence Pack
+*   [x] Product Feedback
 *   [x] Smoke tests
-*   [x] Product feedback
-*   [ ] Video pending
+*   [x] Screenshots
+*   [ ] Demo video pending
 *   [ ] Deck pending
+*   [ ] Devpost text pending
 
 ---
 
-**CENTINELA is not an AI that blindly approves refunds. It is a UiPath-governed fraud case management system that investigates, prioritizes, explains, escalates, and audits — while keeping humans accountable for high-impact decisions.**
+**CENTINELA is not an AI that approves refunds.**
+**CENTINELA is a UiPath-governed fraud case management system that investigates, prioritizes, explains, escalates, and audits — while keeping humans accountable for high-impact financial decisions.**

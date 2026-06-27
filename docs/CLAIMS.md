@@ -1,34 +1,28 @@
 # Product Claims & Evidence Mapping
 
-This document maps our hackathon claims to the specific evidence artifacts supporting them, maintaining an honest accounting of our current capabilities versus future intended architecture.
+This document maps our hackathon claims to the specific evidence artifacts supporting them, maintaining an honest accounting of our current capabilities versus future intended architecture. We do not overclaim.
 
-### Fraud Intelligence Layer
-* CENTINELA generates a deterministic fraud network graph connecting entities and risk signals.
-* CENTINELA prioritizes cases using risk, SLA, retry exhaustion, amount, and human gate signals.
-* CENTINELA provides decision support via a deterministic impact simulator without replacing human accountability.
-* CENTINELA generates an evidence checklist and surfaces synthetic linked fraud signals.
-
-### 🚫 Explicit Non-Claims (What we DO NOT do)
+### Supported Claims (What works today)
 
 | Claim | Evidence Artifact | Status | Notes |
 | :--- | :--- | :--- | :--- |
-| CENTINELA can process a normal fraud dispute end-to-end locally. | `scripts/smoke_test_case_orchestrator.py`, `evidence/logs/step4_case_orchestrator_smoke.txt` | Supported locally | Local orchestration, not UiPath Maestro Case yet. |
-| CENTINELA handles receiver bank API failure paths. | `scripts/smoke_test_mock_apis.py`, `scripts/smoke_test_fraud_investigator.py` | Supported locally | Failure is synthetic but deterministic. |
-| CENTINELA includes a human decision gate. | `scripts/smoke_test_case_orchestrator.py`, Chaos Console flow | Supported locally | Local simulated human endpoint; will map to UiPath Action Center. |
-| CENTINELA provides an immutable, auditable timeline of events. | `evidence/logs/case_orchestrator_runs.jsonl`, `apps/chaos_console` Export feature | Supported locally | Currently stored in a JSONL file; will migrate to Maestro Case native audit logging. |
-| CENTINELA Maestro Case was published and executed in UiPath Automation Cloud. | UiPath screenshots under `evidence/manual-screenshots/` | Supported | Case skeleton execution; local APIs/agents demonstrated separately. |
-| CENTINELA Runtime API persists cases and audit events. | `apps/centinela_runtime/case_store.py`, `audit_store.py` | Supported | Stores data locally in JSONL format for easy review. |
-| CENTINELA exposes UiPath-friendly endpoints. | `apps/centinela_runtime/main.py` | Supported | Endpoints designed for API Workflow integration. |
-| CENTINELA can force high-risk cases into a human decision state. | `scripts/smoke_test_centinela_runtime.py` | Supported | Deterministic risk thresholds trigger human wait state. |
-| CENTINELA does not use real banking data. | Codebase inspection | Supported | Fully synthetic data generated in-memory. |
-| CENTINELA Runtime exposes a single-call Maestro integration endpoint. | `apps/centinela_runtime/main.py` | Supported | Solves the Maestro API Workflow packaging issue by using a direct connector approach. |
-| CENTINELA exposes a no-body Maestro connector endpoint to support direct UiPath Maestro integration. | `apps/centinela_runtime/main.py` | Supported | Workarounds UiPath Integration Services body serialization bugs. |
-| CENTINELA implements deterministic api-down retry handling. | `apps/centinela_runtime/services/fraud_investigation.py` | Supported | Retries up to 3 times before escalating. |
-| CENTINELA uses a decision policy engine for human gating. | `apps/centinela_runtime/services/case_management.py` | Supported | Forces human review for critical risk or receiver conflict. |
-| CENTINELA calculates SLA status deterministically. | `apps/centinela_runtime/services/case_management.py` | Supported | Included in export payload. |
-| CENTINELA generates deterministic Analyst Briefs and Customer Response Drafts. | `apps/centinela_runtime/services/case_management.py` | Supported | Elevates the realism of the human decision stage. |
-| CENTINELA UiPath debug connector integration was successful. | Code/Logs | Supported | Maestro executed the connector activity in Debug mode on cloud. |
-| CENTINELA supports end-to-end Maestro case execution using no-body connector endpoints for Investigation, Resolution, and Audit Export. | `apps/centinela_runtime/main.py` | Supported | Enables end-to-end UiPath execution despite UI limitations. |
-| CENTINELA includes an Analyst Console v2 with deterministic case-specific briefs and retry visualizations. | `apps/centinela_runtime/static/` | Supported | Operational UI integrated directly into the Runtime API without heavy external dependencies. |
-| Connected Maestro solution publish is blocked by UiPath Labs limitation. | `docs/UIPATH_PRODUCT_FEEDBACK.md` | Pending UiPath Fix | Packaging fails with 'elements unknown' for custom connectors. |
-| CENTINELA includes a Judge Replay Mode that runs the full fraud case lifecycle and displays the resulting risk, policy, retry, human decision, and audit evidence. | `apps/centinela_runtime/static/judge.html` | Supported | Provides a guided evaluation flow for judges. |
+| **Published Maestro Case v1.0.0** | `evidence/manual-screenshots/step12_maestro_case_published.png` | Supported | The baseline case orchestration definition is successfully published to Orchestrator. |
+| **Connected cloud debug with Runtime API** | `evidence/manual-screenshots/step28_maestro_end_to_end_connected_debug.png` | Supported | Maestro executed the connector activity in Debug mode on the UiPath cloud. |
+| **Runtime API is public** | `evidence/logs/step37_runtime_render_smoke.txt` | Supported | Deployed continuously on Render, accessible globally. |
+| **Analyst Console** | `evidence/manual-screenshots/step35_analyst_console_v3_render.png` | Supported | Enterprise-grade UI rendering deterministic case insights. |
+| **Judge Replay** | `evidence/manual-screenshots/step36_judge_replay_render.png` | Supported | Guided evaluator flow safely replicating the Maestro integration logic. |
+| **Fraud Intelligence Layer** | `evidence/manual-screenshots/step35_analyst_console_v3_render.png` | Supported | Generates Priority Queue, Fraud Network, Simulator, Checklist, and Signals. |
+| **Retry handling** | `apps/centinela_runtime/services/fraud_investigation.py` | Supported | Deterministically retries failing external APIs up to 3 times before escalating. |
+| **Human gate** | `apps/centinela_runtime/services/case_management.py` | Supported | Policy forces cases with critical risk or retry exhaustion into manual review. |
+| **Audit export** | `evidence/logs/step28_maestro_latest_export_after_debug.json` | Supported | Generates a rich, immutable v2 audit JSON package. |
+
+---
+
+### Explicit Non-Claims (What we DO NOT claim)
+
+| Claim | Status | Notes |
+| :--- | :--- | :--- |
+| **Connected publish/deployment** | Not Claimed / Blocked | Publishing the connected connector flow fails with `elements unknown` (a UiPath Labs limitation). See `docs/UIPATH_PRODUCT_FEEDBACK.md`. |
+| **Real banking production system** | Not Claimed | Adapters are deterministic synthetics built for safe, reproducible evaluation. |
+| **Real fraud detection on real users** | Not Claimed | All PII, cases, and financial amounts are synthetically generated. |
+| **Autonomous refund approval** | Not Claimed | We deliberately avoid letting the system approve refunds; financial decisions remain with the human. |
