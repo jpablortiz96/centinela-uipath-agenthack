@@ -384,3 +384,36 @@ def analyst_run_api_down():
 @app.get("/api/analyst/approve-latest")
 def analyst_approve_latest():
     return uipath_maestro_approve_latest()
+
+# Judge Replay Endpoints
+@app.get("/judge", response_class=HTMLResponse)
+def judge_replay_console():
+    with open(os.path.join(static_dir, "judge.html"), "r") as f:
+        return f.read()
+
+@app.get("/api/judge/replay")
+def judge_replay_sequence():
+    # 1. Run API down case
+    uipath_maestro_api_down_default()
+    # 2. Approve latest case
+    uipath_maestro_approve_latest()
+    # 3. Export latest case
+    export_data = uipath_maestro_export_latest()
+    
+    ps = export_data.get("priority_summary", {})
+    return {
+        "case_id": export_data.get("case_id"),
+        "risk_score": export_data.get("risk_summary", {}).get("risk_score"),
+        "risk_level": export_data.get("risk_summary", {}).get("risk_level"),
+        "status": export_data.get("status"),
+        "human_decision": export_data.get("human_decision"),
+        "retry_event_count": len([ev for ev in export_data.get("timeline", []) if ev.get("event_type") == "ReceiverBankRetryAttempted"]),
+        "policy_reasons": export_data.get("policy_summary", {}).get("policy_reasons", []),
+        "sla_status": export_data.get("sla_summary", {}).get("sla_status"),
+        "audit_event_count": len(export_data.get("timeline", [])),
+        "links": {
+            "analyst_console": "/analyst",
+            "openapi": "/openapi.json"
+        },
+        "full_export": export_data
+    }

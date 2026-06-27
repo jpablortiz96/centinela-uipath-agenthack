@@ -1,0 +1,93 @@
+:root {
+    --bg-dark: #0f172a;
+    --bg-panel: #1e293b;
+    --bg-inner: #0b1120;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --accent-blue: #3b82f6;
+    --accent-blue-hover: #2563eb;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --border-color: #334155;
+    --border-hover: #475569;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+.header {
+    background-color: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+    padding: 20px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+.header h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 8px; color: var(--text-primary); }
+.header p { color: var(--text-secondary); font-size: 0.95rem; }
+
+.panel {
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.panel h2 { font-size: 1.2rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 15px; }
+
+/* Architecture Strip */
+.architecture-strip {
+    display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 12px; font-size: 0.9rem;
+}
+.flow-step { background: var(--bg-inner); padding: 8px 14px; border-radius: 6px; border: 1px solid var(--border-color); color: var(--text-secondary); }
+.flow-step.highlight { border-color: var(--accent-blue); color: var(--text-primary); font-weight: bold; background: rgba(59, 130, 246, 0.1); }
+.arrow { color: var(--text-secondary); font-weight: bold; }
+
+/* Main Layout */
+.main-layout { display: grid; grid-template-columns: 1.1fr 1fr; gap: 25px; }
+@media (max-width: 800px) { .main-layout { grid-template-columns: 1fr; } }
+
+/* Buttons */
+.btn {
+    background-color: var(--accent-blue); color: white; border: none; padding: 12px 15px; width: 100%; text-align: left;
+    border-radius: 6px; font-weight: 600; cursor: pointer; transition: background-color 0.2s; font-size: 0.95rem;
+}
+.btn:hover:not(:disabled) { background-color: var(--accent-blue-hover); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-warning { background-color: var(--warning); }
+.btn-warning:hover:not(:disabled) { background-color: #d97706; }
+.btn-success { background-color: var(--success); }
+.btn-success:hover:not(:disabled) { background-color: #059669; }
+.btn-secondary { background-color: #475569; }
+.btn-secondary:hover:not(:disabled) { background-color: #334155; }
+.btn-primary { background-color: #6366f1; text-align: center; }
+
+/* Steps */
+.step { margin-bottom: 15px; }
+.step-content { background: var(--bg-inner); border-left: 4px solid var(--border-color); padding: 12px; margin-top: 5px; display: none; font-size: 0.9rem; border-radius: 0 4px 4px 0; }
+.step-content.active { display: block; border-left-color: var(--accent-blue); }
+
+.replay-result { background: var(--bg-inner); padding: 15px; margin-top: 15px; border-radius: 6px; font-size: 0.9rem; border: 1px solid var(--border-color); }
+.replay-result ul { margin-left: 20px; color: var(--text-secondary); margin-top: 5px; }
+
+/* Evidence */
+.evidence-list { list-style: none; padding: 0; margin-bottom: 25px; }
+.evidence-list li { margin-bottom: 12px; }
+.evidence-list a { color: var(--accent-blue); text-decoration: none; font-weight: 600; font-size: 1.05rem; }
+.evidence-list a:hover { text-decoration: underline; color: var(--accent-blue-hover); }
+
+.note { padding: 15px; border-radius: 6px; font-size: 0.9rem; margin-bottom: 15px; }
+.note.info { background: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-blue); }
+.note.warning { background: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning); color: #fde68a; }
+
+#execution-log { background: var(--bg-inner); padding: 15px; border-radius: 6px; font-size: 0.85rem; height: 350px; overflow-y: auto; color: var(--text-secondary); border: 1px solid var(--border-color); }

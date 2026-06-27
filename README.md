@@ -54,6 +54,12 @@ An operational surface for analysts and judges to inspect case state, risk, SLA,
 - **Local URL**: [http://127.0.0.1:8070/analyst](http://127.0.0.1:8070/analyst)
 - **Render URL**: [https://centinela-uipath-agenthack.onrender.com/analyst](https://centinela-uipath-agenthack.onrender.com/analyst)
 
+### Judge Replay Mode
+A guided evaluation flow for judges to easily replay the full UiPath-governed case lifecycle (Investigation -> Policy -> Human Decision -> Audit Export).
+- **Local URL**: [http://127.0.0.1:8070/judge](http://127.0.0.1:8070/judge)
+- **Render URL**: [https://centinela-uipath-agenthack.onrender.com/judge](https://centinela-uipath-agenthack.onrender.com/judge)
+- **Purpose**: guided evaluation flow for judges.
+
 ## Setup Instructions
 1. Clone the repository.
 2. Ensure you have Python 3 installed.

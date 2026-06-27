@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CENTINELA Judge Replay</title>
+    <link rel="stylesheet" href="/static/judge.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>CENTINELA Judge Replay</h1>
+            <p>Guided replay of UiPath-governed fraud case investigation, human decision, retry handling, and audit export.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Architecture Strip -->
+        <section class="panel architecture-strip">
+            <div class="flow-step">UiPath Maestro Case</div> <span class="arrow">→</span>
+            <div class="flow-step">Integration Service Connector</div> <span class="arrow">→</span>
+            <div class="flow-step highlight">CENTINELA Runtime API</div> <span class="arrow">→</span>
+            <div class="flow-step highlight">Fraud Policy Engine</div> <span class="arrow">→</span>
+            <div class="flow-step highlight">Human Decision</div> <span class="arrow">→</span>
+            <div class="flow-step">Audit Export</div>
+        </section>
+
+        <div class="main-layout">
+            <!-- Left: Step-by-step -->
+            <div class="panel step-panel">
+                <h2>Step-by-Step Guided Replay</h2>
+                <div class="step">
+                    <button class="btn" id="btn-step1">Step 1: Start API-down fraud case</button>
+                    <div class="step-content" id="content-step1"></div>
+                </div>
+                <div class="step">
+                    <button class="btn" id="btn-step2" disabled>Step 2: Inspect retry and risk result</button>
+                    <div class="step-content" id="content-step2"></div>
+                </div>
+                <div class="step">
+                    <button class="btn btn-success" id="btn-step3" disabled>Step 3: Apply human decision</button>
+                    <div class="step-content" id="content-step3"></div>
+                </div>
+                <div class="step">
+                    <button class="btn btn-secondary" id="btn-step4" disabled>Step 4: Export audit package</button>
+                    <div class="step-content" id="content-step4"></div>
+                </div>
+                <div class="step">
+                    <button class="btn btn-primary" id="btn-step5" disabled>Step 5: Open Analyst Console</button>
+                    <div class="step-content" id="content-step5"></div>
+                </div>
+
+                <hr style="margin: 20px 0; border: 1px solid var(--border-color);">
+                <h2>One-Click Full Replay</h2>
+                <button class="btn btn-warning" id="btn-full-replay" style="width: 100%;">Run Full Replay</button>
+                <div id="full-replay-result" class="replay-result" style="display:none;"></div>
+            </div>
+
+            <!-- Right: Evidence & Output -->
+            <div class="panel evidence-panel">
+                <h2>Evidence & Artifacts</h2>
+                <ul class="evidence-list">
+                    <li><a href="/health" target="_blank">Public Runtime API health</a></li>
+                    <li><a href="/openapi.json" target="_blank">Public OpenAPI JSON</a></li>
+                    <li><a href="/analyst" target="_blank">Analyst Console</a></li>
+                    <li><a href="https://github.com/jpablortiz96/centinela-uipath-agenthack" target="_blank">GitHub repository</a></li>
+                </ul>
+                
+                <div class="note info">
+                    <strong>UiPath connected debug evidence note:</strong> The UiPath Maestro case is fully integrated and successfully runs the Runtime API via Integration Service during a connected debug session.
+                </div>
+                <div class="note warning">
+                    <strong>Product feedback note:</strong> We are unable to successfully publish the completed Studio Web project to the UiPath Orchestrator or run it outside of debug mode due to a UiPath Labs custom connector packaging limitation ("Failed to download connector"). We have pivoted to this Judge Replay and Analyst Console to demonstrate our API's readiness.
+                </div>
+
+                <h3 style="margin-top:20px;">Execution Log</h3>
+                <pre id="execution-log">Ready.</pre>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/judge.js"></script>
+</body>
+</html>
