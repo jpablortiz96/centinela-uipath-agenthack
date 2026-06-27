@@ -56,15 +56,33 @@ def main():
         r = requests.get(f"{base_url}/api/analyst/export-latest")
         if r.status_code == 200:
             export = r.json()
-            required_keys = ["policy_summary", "sla_summary", "analyst_brief", "customer_response_draft", "timeline", "evidence_summary", "risk_explanation", "recommended_questions_for_analyst", "allowed_decisions"]
-            missing = [k for k in required_keys if k not in export]
+            required_keys = [
+                "policy_summary", "sla_summary", "analyst_brief", 
+                "customer_response_draft", "timeline", "evidence_summary", 
+                "risk_explanation", "recommended_questions_for_analyst", "allowed_decisions",
+                "fraud_network", "priority_summary", "decision_simulator", 
+                "evidence_checklist", "linked_case_signals"
+            ]
+            missing = [k for k in required_keys if k not in export or export[k] is None]
             if not missing:
                 brief = export.get("analyst_brief", "")
                 if "Deterministic brief generated for analyst" in brief:
                     print("FAIL: Analyst brief is the old generic one.")
                     all_passed = False
+                elif "nodes" not in export["fraud_network"] or "edges" not in export["fraud_network"]:
+                    print("FAIL: fraud_network missing nodes or edges.")
+                    all_passed = False
+                elif "priority_score" not in export["priority_summary"]:
+                    print("FAIL: priority_score missing from priority_summary.")
+                    all_passed = False
+                elif "approve_refund" not in export["decision_simulator"] or "escalate_fraud_ops" not in export["decision_simulator"]:
+                    print("FAIL: decision_simulator missing expected options.")
+                    all_passed = False
+                elif "retry_history" not in export["evidence_checklist"]["evidence_items"]:
+                    print("FAIL: evidence_checklist missing retry_history.")
+                    all_passed = False
                 else:
-                    print("PASS (All required summaries included and brief is dynamic)")
+                    print("PASS (All required summaries included, brief is dynamic, and intelligence fields present)")
             else:
                 print("FAIL: Missing keys", missing)
                 all_passed = False

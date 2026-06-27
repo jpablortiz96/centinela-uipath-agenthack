@@ -62,6 +62,13 @@ class CaseState(BaseModel):
     recommended_questions_for_analyst: Optional[List[str]] = None
     allowed_decisions: Optional[List[str]] = None
     customer_response_draft: Optional[str] = None
+    
+    # Fraud Intelligence Layer
+    fraud_network: Optional[Dict[str, Any]] = None
+    priority_summary: Optional[Dict[str, Any]] = None
+    decision_simulator: Optional[Dict[str, Any]] = None
+    evidence_checklist: Optional[Dict[str, Any]] = None
+    linked_case_signals: Optional[Dict[str, Any]] = None
 
 class UiPathCompactOutput(BaseModel):
     case_id: str
@@ -106,5 +113,10 @@ class AuditExportOutput(BaseModel):
     recommended_questions_for_analyst: Optional[List[str]] = None
     allowed_decisions: Optional[List[str]] = None
     customer_response_draft: Optional[str] = None
+    fraud_network: Optional[Dict[str, Any]] = None
+    priority_summary: Optional[Dict[str, Any]] = None
+    decision_simulator: Optional[Dict[str, Any]] = None
+    evidence_checklist: Optional[Dict[str, Any]] = None
+    linked_case_signals: Optional[Dict[str, Any]] = None
     timeline: List[Dict[str, Any]]
     limitations_notice: str = "This is a deterministic runtime for UiPath integration. Not a production banking API."

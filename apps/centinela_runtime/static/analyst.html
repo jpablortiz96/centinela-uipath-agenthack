@@ -18,132 +18,179 @@
             <a href="https://github.com/jpablortiz96/centinela-uipath-agenthack" target="_blank" class="btn-small">GitHub Repo</a>
         </div>
     </header>
-    
+
+    <div class="command-bar container">
+        <button id="btn-refresh" class="btn">Refresh Cases</button>
+        <button id="btn-run-api-down" class="btn btn-warning">Run API-down Fraud Case</button>
+        <button id="btn-approve" class="btn btn-success">Approve Latest Case</button>
+        <button id="btn-export" class="btn btn-secondary">Export Latest Audit</button>
+        <button id="btn-show-latest" class="btn btn-primary">Show Latest Case</button>
+    </div>
+
+    <section class="status-cards container">
+        <div class="card">
+            <h3>Runtime Status</h3>
+            <p id="runtime-status" class="status-ok">Online</p>
+        </div>
+        <div class="card">
+            <h3>Case Outcome</h3>
+            <p id="latest-case-outcome">--</p>
+        </div>
+        <div class="card">
+            <h3>Priority Level</h3>
+            <p id="latest-priority-level">--</p>
+        </div>
+        <div class="card">
+            <h3>Risk Level</h3>
+            <p id="latest-risk-level">--</p>
+        </div>
+        <div class="card">
+            <h3>SLA Status</h3>
+            <p id="latest-sla-status">--</p>
+        </div>
+        <div class="card">
+            <h3>Human Gate</h3>
+            <p id="latest-human-gate">--</p>
+        </div>
+        <div class="card">
+            <h3>Retry Attempts</h3>
+            <p id="latest-retries">--</p>
+        </div>
+    </section>
+
     <main class="container">
-        <!-- Status Cards -->
-        <section class="status-cards">
-            <div class="card">
-                <h3>Runtime Status</h3>
-                <p id="runtime-status" class="status-ok">Online</p>
-            </div>
-            <div class="card">
-                <h3>Latest Case Status</h3>
-                <p id="latest-case-status">--</p>
-            </div>
-            <div class="card">
-                <h3>Case Outcome</h3>
-                <p id="latest-case-outcome">--</p>
-            </div>
-            <div class="card">
-                <h3>Risk Level</h3>
-                <p id="latest-risk-level">--</p>
-            </div>
-            <div class="card">
-                <h3>SLA Status</h3>
-                <p id="latest-sla-status">--</p>
-            </div>
-            <div class="card">
-                <h3>Human Gate</h3>
-                <p id="latest-human-gate">--</p>
-            </div>
-            <div class="card">
-                <h3>Retry Attempts</h3>
-                <p id="latest-retries">--</p>
-            </div>
-        </section>
-
-        <!-- Action Buttons -->
-        <section class="actions">
-            <button id="btn-refresh" class="btn">Refresh Cases</button>
-            <button id="btn-run-api-down" class="btn btn-warning">Run API-down Fraud Case</button>
-            <button id="btn-approve" class="btn btn-success">Approve Latest Case</button>
-            <button id="btn-export" class="btn btn-secondary">Export Latest Audit</button>
-        </section>
-
+        <!-- Main Workspace -->
         <div class="main-layout">
-            <!-- Left Column: Case List -->
-            <div class="left-col">
-                <section class="case-list-section">
-                    <h2>Latest Cases</h2>
-                    <div class="table-container">
-                        <table id="cases-table">
-                            <thead>
-                                <tr>
-                                    <th>Case ID</th>
-                                    <th>Status</th>
-                                    <th>Stage</th>
-                                    <th>Risk</th>
-                                    <th>Decision</th>
-                                    <th>Source</th>
-                                    <th>Retries</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="cases-body">
-                                <!-- Populated by JS -->
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
+            
+            <!-- Left Column: Priority Queue -->
+            <div class="col-left panel">
+                <h2>Priority Queue</h2>
+                <div class="table-container">
+                    <table id="cases-table">
+                        <thead>
+                            <tr>
+                                <th>Case ID</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Risk</th>
+                                <th>Decision</th>
+                                <th>Retries</th>
+                                <th>Source</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cases-body">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Right Column: Case Details -->
-            <div class="right-col">
-                <section class="case-detail-section" id="case-detail-view" style="display: none;">
-                    <h2>Selected Case Detail: <span id="detail-case-id"></span></h2>
+            <!-- Empty State -->
+            <div id="no-case-selected" class="empty-state" style="grid-column: 2 / -1;">
+                <p>Run API-down Fraud Case to generate an operational case, or select a case to view details.</p>
+            </div>
+
+            <!-- Center and Right columns (hidden by default) -->
+            <div id="case-detail-cols" style="display: none; display: contents;">
+                
+                <!-- Center Column: Investigation Intelligence -->
+                <div class="col-center panel">
+                    <h2>Investigation Intelligence <span id="detail-case-id" class="badge badge-external"></span></h2>
                     
-                    <div class="detail-grid">
-                        <div class="detail-panel">
-                            <h3>Overview</h3>
-                            <p><strong>Stage:</strong> <span id="detail-stage"></span></p>
-                            <p><strong>Status:</strong> <span id="detail-status"></span></p>
-                            <p><strong>Risk Score:</strong> <span id="detail-risk-score"></span></p>
-                            <p><strong>Risk Level:</strong> <span id="detail-risk-level"></span></p>
-                            <p><strong>Recommended Action:</strong> <span id="detail-recommended"></span></p>
-                            <p><strong>Human Decision:</strong> <span id="detail-human-decision"></span></p>
-                            <p><strong>SLA Status:</strong> <span id="detail-sla-status"></span></p>
+                    <div class="overview-grid">
+                        <div class="overview-item">
+                            <span class="label">Stage</span>
+                            <span class="value" id="detail-stage">--</span>
                         </div>
-                        
-                        <div class="detail-panel">
-                            <h3>Policy Summary</h3>
-                            <div id="detail-policy-summary"></div>
+                        <div class="overview-item">
+                            <span class="label">Status</span>
+                            <span class="value" id="detail-status">--</span>
+                        </div>
+                        <div class="overview-item">
+                            <span class="label">Risk Score</span>
+                            <span class="value" id="detail-risk-score">--</span>
+                        </div>
+                        <div class="overview-item">
+                            <span class="label">Risk Level</span>
+                            <span class="value" id="detail-risk-level">--</span>
+                        </div>
+                        <div class="overview-item">
+                            <span class="label">SLA Status</span>
+                            <span class="value" id="detail-sla-status">--</span>
                         </div>
                     </div>
 
-                    <div class="detail-panel analyst-brief">
+                    <div class="inner-panel">
+                        <h3>Policy Summary</h3>
+                        <div id="detail-policy-summary"></div>
+                    </div>
+
+                    <div class="inner-panel">
+                        <h3>Fraud Network Graph</h3>
+                        <div id="detail-fraud-network" style="min-height: 250px; position: relative;"></div>
+                    </div>
+
+                    <div class="inner-panel">
+                        <h3>Decision Simulator</h3>
+                        <div id="detail-decision-simulator"></div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Human Review Pack -->
+                <div class="col-right panel">
+                    <h2>Human Review Pack</h2>
+                    
+                    <div class="inner-panel analyst-brief">
                         <h3>Analyst Brief</h3>
                         <div id="detail-analyst-brief"></div>
-                        <div class="extra-brief-info">
-                            <p><strong>Evidence:</strong> <span id="detail-evidence-summary"></span></p>
-                            <p><strong>Risk:</strong> <span id="detail-risk-explanation"></span></p>
-                            <p><strong>Questions:</strong> <ul id="detail-questions"></ul></p>
-                            <p><strong>Allowed Decisions:</strong> <div id="detail-allowed-decisions" style="margin-top:5px; margin-bottom:5px;"></div></p>
-                        </div>
                     </div>
 
-                    <div class="detail-panel customer-draft">
+                    <div class="inner-panel">
+                        <h3>Evidence Checklist</h3>
+                        <div id="detail-evidence-checklist"></div>
+                    </div>
+
+                    <div class="inner-panel">
+                        <h3>Linked Case Signals</h3>
+                        <div id="detail-linked-signals"></div>
+                    </div>
+
+                    <div class="inner-panel customer-draft">
                         <h3>Customer Response Draft</h3>
                         <div id="detail-customer-draft"></div>
                     </div>
 
-                    <div class="detail-panel">
-                        <h3>Audit Timeline</h3>
-                        <div class="timeline" id="detail-timeline"></div>
+                    <div class="inner-panel">
+                        <h3>Recommended Questions</h3>
+                        <ul id="detail-questions" class="question-list"></ul>
                     </div>
 
-                    <div class="detail-panel">
-                        <h3 class="collapsible-header" id="raw-json-header" style="cursor: pointer;">
-                            Raw JSON Export <span>▼</span>
-                        </h3>
-                        <div id="raw-json-content" style="display: none;">
-                            <pre id="detail-raw-json"></pre>
-                        </div>
+                    <div class="inner-panel">
+                        <h3>Allowed Decisions</h3>
+                        <div id="detail-allowed-decisions" class="badge-container"></div>
                     </div>
-                </section>
-                
-                <section id="no-case-selected" class="empty-state">
-                    <p>Select a case to view details or click Refresh.</p>
-                </section>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Lower section with tabs -->
+        <div id="lower-section" class="panel" style="display: none; margin-top: 20px;">
+            <div class="tabs">
+                <button class="tab-btn active" data-target="tab-timeline">Audit Timeline</button>
+                <button class="tab-btn" data-target="tab-json">Raw JSON Export</button>
+                <button class="tab-btn" data-target="tab-notes">Runtime Notes</button>
+            </div>
+            
+            <div id="tab-timeline" class="tab-content active">
+                <div class="timeline" id="detail-timeline"></div>
+            </div>
+            <div id="tab-json" class="tab-content" style="display: none;">
+                <pre id="detail-raw-json"></pre>
+            </div>
+            <div id="tab-notes" class="tab-content" style="display: none;">
+                <p>CENTINELA uses a deterministic runtime, avoiding probabilistic LLM logic in critical paths to ensure reproducibility for the UiPath AgentHack.</p>
+                <p>This layout mimics an enterprise fraud operations console.</p>
             </div>
         </div>
     </main>

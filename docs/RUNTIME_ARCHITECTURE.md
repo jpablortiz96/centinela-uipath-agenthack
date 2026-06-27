@@ -27,8 +27,9 @@ To avoid complex API Workflow project packaging in Maestro, the recommended inte
 ### Maestro No-Body End-to-End Lifecycle
 Due to body serialization issues in UiPath Integration Services, we implemented a complete stateless/no-body REST path for Maestro Connector integration:
 1. **Investigation**: `GET /uipath/maestro-api-down-default` (or `GET /uipath/maestro-investigation-default`) creates and runs the investigation automatically.
-2. **Resolution (Human Decision)**: `GET /uipath/maestro-approve-latest`, `GET /uipath/maestro-reject-latest`, `GET /uipath/maestro-request-more-evidence-latest`, or `GET /uipath/maestro-escalate-latest`.
-3. **Audit Export**: `GET /uipath/maestro-export-latest` fetches the updated state of the latest Maestro case.
+2. **Fraud Intelligence Layer**: Automatically generated after investigation to provide network, priority, simulator, checklist, and linked signals.
+3. **Resolution (Human Decision)**: `GET /uipath/maestro-approve-latest`, `GET /uipath/maestro-reject-latest`, `GET /uipath/maestro-request-more-evidence-latest`, or `GET /uipath/maestro-escalate-latest`.
+4. **Audit Export**: `GET /uipath/maestro-export-latest` fetches the updated state of the latest Maestro case.
 
 ### Analyst Console
 The Runtime API also includes a lightweight web console (`GET /analyst`) serving as an operational surface for analysts or judges. This console provides a visual representation of case states, risk profiles, SLA status, policy outcomes, retry events, and full audit exports, all without requiring external dependencies like React or CDNs.

@@ -118,6 +118,11 @@ def export_case(case_id: str):
         "recommended_questions_for_analyst": case_data.get("recommended_questions_for_analyst"),
         "allowed_decisions": case_data.get("allowed_decisions"),
         "customer_response_draft": case_data.get("customer_response_draft"),
+        "fraud_network": case_data.get("fraud_network"),
+        "priority_summary": case_data.get("priority_summary"),
+        "decision_simulator": case_data.get("decision_simulator"),
+        "evidence_checklist": case_data.get("evidence_checklist"),
+        "linked_case_signals": case_data.get("linked_case_signals"),
         "timeline": audit,
         "limitations_notice": "This is a deterministic runtime for UiPath integration. Not a production banking API."
     }
@@ -335,6 +340,7 @@ def analyst_get_cases():
         audit = get_case_audit(case_id)
         retries = len([ev for ev in audit if ev.get("event_type") == "ReceiverBankRetryAttempted"])
         
+        ps = c.get("priority_summary", {})
         result.append({
             "case_id": case_id,
             "status": c.get("status"),
@@ -347,8 +353,13 @@ def analyst_get_cases():
             "human_decision": c.get("human_decision"),
             "created_at": c.get("created_at"),
             "source": c.get("source"),
-            "retry_attempts": retries
+            "retry_attempts": retries,
+            "priority_score": ps.get("priority_score", 0),
+            "priority_level": ps.get("priority_level", "P3 Low"),
+            "priority_reasons": ps.get("priority_reasons", [])
         })
+        
+    result.sort(key=lambda x: x["priority_score"], reverse=True)
     return result
 
 @app.get("/api/analyst/cases/{case_id}")

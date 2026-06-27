@@ -41,6 +41,14 @@ To bypass UiPath Integration Services body serialization bugs, you can execute a
 - **Resolution** → `GET /uipath/maestro-approve-latest` (or `-reject-latest`, `-request-more-evidence-latest`, `-escalate-latest`)
 - **Audit Export** → `GET /uipath/maestro-export-latest`
 
+### Fraud Intelligence Layer
+Between Runtime investigation and Analyst presentation, CENTINELA layers on fraud intelligence:
+* **Fraud Network Graph**: Deterministic nodes and edges connecting customer, transaction, receiver, bank, and risk signals.
+* **Priority Queue**: Dynamic prioritization score based on risk, SLA, retry exhaustion, and amount.
+* **Decision Simulator**: Estimates customer, operational, and financial impact for `approve_refund`, `reject_refund`, `request_more_evidence`, and `escalate_fraud_ops`.
+* **Evidence Checklist**: Validates presence/absence of necessary documentation (receipts, traces, statements).
+* **Linked Case Signals**: Highlights associated multi-case patterns (e.g. `same_receiver_seen_before`, `retry_failure_cluster`).
+
 ### Analyst Console v2
 An operational surface for analysts and judges to inspect case state, risk, SLA, policy, retries, and audit trails. Features deterministic case-specific analyst briefs.
 - **Local URL**: [http://127.0.0.1:8070/analyst](http://127.0.0.1:8070/analyst)

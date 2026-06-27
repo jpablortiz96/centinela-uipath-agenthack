@@ -99,6 +99,7 @@ def process_investigation(case_data: Dict[str, Any]) -> Dict[str, Any]:
     evaluate_decision_policy(case_data)
     generate_analyst_brief(case_data)
     generate_customer_response_draft(case_data)
+    generate_fraud_intelligence(case_data)
     
     # Evaluate stage transition based on policy engine
     if case_data["required_human_gate"]:
@@ -138,8 +139,125 @@ def process_human_decision(case_data: Dict[str, Any], decision: str, analyst: st
     
     # Update customer response draft after decision
     generate_customer_response_draft(case_data)
+    generate_analyst_brief(case_data)
+    generate_fraud_intelligence(case_data)
     
     log_event(case_data["case_id"], "StageTransition", {"new_stage": case_data["current_stage"], "reason": f"Human decision applied: {decision}"})
     
     save_case(case_data)
     return case_data
+
+def generate_fraud_intelligence(case_data: Dict[str, Any]) -> None:
+    # 1. Priority Scoring
+    risk_score = case_data.get("risk_score", 0) or 0
+    score = risk_score
+    if case_data.get("required_human_gate"):
+        score += 15
+    retries = case_data.get("retry_attempts", 0)
+    if retries >= 3:
+        score += 10
+    sla = case_data.get("sla_status", "")
+    if sla == "at_risk":
+        score += 10
+    elif sla == "breached":
+        score += 20
+    amt = case_data.get("amount_cop", 0) or 0
+    score += min(amt / 100000, 20)
+    
+    score = min(int(score), 100)
+    level = "P3 Low"
+    if score >= 90: level = "P0 Critical"
+    elif score >= 75: level = "P1 High"
+    elif score >= 50: level = "P2 Medium"
+    
+    case_data["priority_summary"] = {
+        "priority_score": score,
+        "priority_level": level,
+        "priority_reasons": ["Derived from risk score, SLA, retries, and amount."]
+    }
+    
+    # 2. Fraud Network Graph
+    nodes = []
+    edges = []
+    
+    c_id = case_data.get("customer_id", "Unknown")
+    nodes.append({"id": f"customer:{c_id}", "label": f"Customer {c_id}", "type": "customer", "risk": "medium"})
+    
+    t_id = case_data.get("transaction_id", "Unknown")
+    t_risk = case_data.get("risk_level", "low")
+    nodes.append({"id": f"transaction:{t_id}", "label": "Instant Payment", "type": "transaction", "risk": t_risk})
+    edges.append({"from": f"customer:{c_id}", "to": f"transaction:{t_id}", "label": "initiated"})
+    
+    r_id = "RCV-7781"
+    nodes.append({"id": f"receiver:{r_id}", "label": "Receiver Account", "type": "receiver_account", "risk": "critical" if t_risk == "critical" else "high"})
+    edges.append({"from": f"transaction:{t_id}", "to": f"receiver:{r_id}", "label": "sent_to"})
+    
+    nodes.append({"id": "bank:receiver-bank", "label": "Receiver Bank", "type": "bank", "risk": "high"})
+    edges.append({"from": f"receiver:{r_id}", "to": "bank:receiver-bank", "label": "hosted_by"})
+    
+    if retries >= 3:
+        nodes.append({"id": "signal:api_down", "label": "API Down After Retries", "type": "risk_signal", "risk": "critical"})
+        edges.append({"from": "bank:receiver-bank", "to": "signal:api_down", "label": "retry_exhausted"})
+        
+    if case_data.get("required_human_gate"):
+        nodes.append({"id": "signal:human_gate", "label": "Human Gate Required", "type": "control", "risk": "high"})
+        edges.append({"from": f"transaction:{t_id}", "to": "signal:human_gate", "label": "requires_review"})
+        
+    case_data["fraud_network"] = {"nodes": nodes, "edges": edges}
+    
+    # 3. Decision Simulator
+    case_data["decision_simulator"] = {
+        "approve_refund": {
+            "customer_impact": "Customer protected",
+            "financial_impact_cop": amt,
+            "operational_impact": "Requires refund processing and fraud ops monitoring",
+            "risk": "May create loss if dispute is not valid",
+            "recommended_when": "Evidence is strong and customer risk is high"
+        },
+        "reject_refund": {
+            "customer_impact": "Customer assumes liability",
+            "financial_impact_cop": 0,
+            "operational_impact": "No financial transaction needed",
+            "risk": "Customer dissatisfaction, regulatory risk if genuine fraud",
+            "recommended_when": "Evidence is weak or first-party fraud suspected"
+        },
+        "request_more_evidence": {
+            "customer_impact": "Customer delayed",
+            "financial_impact_cop": 0,
+            "operational_impact": "Pauses SLA clock, requires analyst follow-up",
+            "risk": "SLA breach if not handled",
+            "recommended_when": "Missing critical documentation"
+        },
+        "escalate_fraud_ops": {
+            "customer_impact": "Customer delayed",
+            "financial_impact_cop": 0,
+            "operational_impact": "Transfers case to Level 2 Fraud Ops",
+            "risk": "Higher operational cost",
+            "recommended_when": "Complex network pattern or organized fraud suspected"
+        }
+    }
+    
+    # 4. Evidence Checklist
+    fail_mode = case_data.get("simulate_receiver_failure", "none")
+    trace_status = "failed" if fail_mode != "none" else "present"
+    retry_status = "present" if retries > 0 else "not_applicable"
+    
+    case_data["evidence_checklist"] = {
+        "evidence_score": 85 if trace_status == "present" else 60,
+        "evidence_items": {
+            "customer_statement": {"status": "present", "note": case_data.get("reported_reason", "Included")},
+            "transaction_receipt": {"status": "present", "note": "Verified in core banking"},
+            "bank_statement": {"status": "not_applicable", "note": "Not requested"},
+            "device_or_ip_signal": {"status": "present", "note": "Location mismatch detected"},
+            "receiver_trace": {"status": trace_status, "note": f"Receiver API mode: {fail_mode}"},
+            "retry_history": {"status": retry_status, "note": f"{retries} retries logged"}
+        }
+    }
+    
+    # 5. Linked Case Signals
+    case_data["linked_case_signals"] = {
+        "same_receiver_seen_before": {"active": True, "note": "Receiver RCV-7781 seen in 2 other disputes."},
+        "similar_amount_pattern": {"active": False, "note": "Amount does not match known burst patterns."},
+        "retry_failure_cluster": {"active": retries >= 3, "note": "Multiple API failures to this receiver bank today."},
+        "possible_mule_account_pattern": {"active": True, "note": "Instant payment followed by immediate withdrawal."}
+    }

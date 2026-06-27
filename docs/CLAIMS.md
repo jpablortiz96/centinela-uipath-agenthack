@@ -2,6 +2,14 @@
 
 This document maps our hackathon claims to the specific evidence artifacts supporting them, maintaining an honest accounting of our current capabilities versus future intended architecture.
 
+### Fraud Intelligence Layer
+* CENTINELA generates a deterministic fraud network graph connecting entities and risk signals.
+* CENTINELA prioritizes cases using risk, SLA, retry exhaustion, amount, and human gate signals.
+* CENTINELA provides decision support via a deterministic impact simulator without replacing human accountability.
+* CENTINELA generates an evidence checklist and surfaces synthetic linked fraud signals.
+
+### 🚫 Explicit Non-Claims (What we DO NOT do)
+
 | Claim | Evidence Artifact | Status | Notes |
 | :--- | :--- | :--- | :--- |
 | CENTINELA can process a normal fraud dispute end-to-end locally. | `scripts/smoke_test_case_orchestrator.py`, `evidence/logs/step4_case_orchestrator_smoke.txt` | Supported locally | Local orchestration, not UiPath Maestro Case yet. |
