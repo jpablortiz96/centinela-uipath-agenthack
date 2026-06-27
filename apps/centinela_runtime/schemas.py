@@ -101,6 +101,10 @@ class AuditExportOutput(BaseModel):
     policy_summary: Optional[Dict[str, Any]] = None
     sla_summary: Optional[Dict[str, Any]] = None
     analyst_brief: Optional[str] = None
+    evidence_summary: Optional[str] = None
+    risk_explanation: Optional[str] = None
+    recommended_questions_for_analyst: Optional[List[str]] = None
+    allowed_decisions: Optional[List[str]] = None
     customer_response_draft: Optional[str] = None
     timeline: List[Dict[str, Any]]
     limitations_notice: str = "This is a deterministic runtime for UiPath integration. Not a production banking API."

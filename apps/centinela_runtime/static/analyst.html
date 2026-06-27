@@ -10,7 +10,12 @@
     <header class="header">
         <div class="logo">
             <h1>CENTINELA Analyst Console</h1>
-            <p>Fraud Dispute Case Operations | Runtime connected to UiPath Maestro</p>
+            <p>UiPath-governed fraud case management with deterministic runtime investigation.</p>
+        </div>
+        <div class="header-links">
+            <a href="/health" target="_blank" class="btn-small">Runtime Health</a>
+            <a href="/openapi.json" target="_blank" class="btn-small">OpenAPI JSON</a>
+            <a href="https://github.com/jpablortiz96/centinela-uipath-agenthack" target="_blank" class="btn-small">GitHub Repo</a>
         </div>
     </header>
     
@@ -26,6 +31,10 @@
                 <p id="latest-case-status">--</p>
             </div>
             <div class="card">
+                <h3>Case Outcome</h3>
+                <p id="latest-case-outcome">--</p>
+            </div>
+            <div class="card">
                 <h3>Risk Level</h3>
                 <p id="latest-risk-level">--</p>
             </div>
@@ -34,7 +43,7 @@
                 <p id="latest-sla-status">--</p>
             </div>
             <div class="card">
-                <h3>Human Gate Required</h3>
+                <h3>Human Gate</h3>
                 <p id="latest-human-gate">--</p>
             </div>
             <div class="card">
@@ -64,6 +73,8 @@
                                     <th>Status</th>
                                     <th>Stage</th>
                                     <th>Risk</th>
+                                    <th>Decision</th>
+                                    <th>Source</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -101,6 +112,12 @@
                     <div class="detail-panel analyst-brief">
                         <h3>Analyst Brief</h3>
                         <div id="detail-analyst-brief"></div>
+                        <div class="extra-brief-info">
+                            <p><strong>Evidence:</strong> <span id="detail-evidence-summary"></span></p>
+                            <p><strong>Risk:</strong> <span id="detail-risk-explanation"></span></p>
+                            <p><strong>Questions:</strong> <ul id="detail-questions"></ul></p>
+                            <p><strong>Allowed Decisions:</strong> <span id="detail-allowed-decisions"></span></p>
+                        </div>
                     </div>
 
                     <div class="detail-panel customer-draft">
@@ -114,8 +131,12 @@
                     </div>
 
                     <div class="detail-panel">
-                        <h3>Raw JSON Export</h3>
-                        <pre id="detail-raw-json"></pre>
+                        <h3 class="collapsible-header" id="raw-json-header" style="cursor: pointer;">
+                            Raw JSON Export <span>▼</span>
+                        </h3>
+                        <div id="raw-json-content" style="display: none;">
+                            <pre id="detail-raw-json"></pre>
+                        </div>
                     </div>
                 </section>
                 

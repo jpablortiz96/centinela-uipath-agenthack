@@ -31,11 +31,44 @@ def evaluate_decision_policy(case_data: Dict[str, Any]) -> None:
     case_data["required_human_gate"] = require_human
 
 def generate_analyst_brief(case_data: Dict[str, Any]) -> None:
-    case_data["analyst_brief"] = "Deterministic brief generated for analyst."
+    risk_level = case_data.get("risk_level", "unknown")
+    reasons = case_data.get("policy_reasons", [])
+    reason_str = reasons[0] if reasons else f"of an undetermined risk factor"
+    stage = case_data.get("current_stage", "Unknown Stage")
+    decision = case_data.get("human_decision")
+    
+    brief = f"This case reached {risk_level} risk because {reason_str.lower()}."
+    if case_data.get("required_human_gate"):
+        brief += f" CENTINELA escalated the case to {stage} according to policy."
+    else:
+        brief += f" CENTINELA auto-resolved the case according to policy."
+        
+    if decision:
+        decision_map = {
+            "approve_refund": "approved the refund",
+            "reject_refund": "rejected the refund",
+            "request_more_evidence": "requested more evidence",
+            "escalate_fraud_ops": "escalated to fraud ops"
+        }
+        human_act = decision_map.get(decision, "processed the case")
+        brief += f" The human analyst {human_act} after reviewing the retry history, risk score, and audit trail."
+    elif case_data.get("status") == "waiting_for_human":
+        brief += " The case is currently pending human review."
+        
+    case_data["analyst_brief"] = brief
+    
+    # Improve other fields
     case_data["evidence_quality"] = case_data.get("evidence_quality", "unknown")
-    case_data["evidence_summary"] = f"Evidence quality is {case_data['evidence_quality']}."
-    case_data["risk_explanation"] = f"Risk score is {case_data.get('risk_score')}. {', '.join(case_data.get('policy_reasons', []))}"
-    case_data["recommended_questions_for_analyst"] = ["Did the user authorize this?", "Is the receiver account legitimate?"]
+    case_data["evidence_summary"] = f"Initial evidence quality was '{case_data['evidence_quality']}'. Receiver failure mode: {case_data.get('simulate_receiver_failure', 'none')}. Retry attempts: {case_data.get('retry_attempts', 0)}."
+    case_data["risk_explanation"] = f"Risk score is {case_data.get('risk_score')}/100. Amount involved is {case_data.get('amount_cop')} COP."
+    if reasons:
+        case_data["risk_explanation"] += f" Policy triggers: {', '.join(reasons)}."
+        
+    case_data["recommended_questions_for_analyst"] = [
+        "Did the user authorize this transaction?", 
+        "Is the receiver account legitimate?",
+        "Are there multiple failed API calls to the receiver bank?"
+    ]
     case_data["allowed_decisions"] = ["approve_refund", "reject_refund", "request_more_evidence", "escalate_fraud_ops"]
 
 def generate_customer_response_draft(case_data: Dict[str, Any]) -> None:

@@ -56,10 +56,15 @@ def main():
         r = requests.get(f"{base_url}/api/analyst/export-latest")
         if r.status_code == 200:
             export = r.json()
-            required_keys = ["policy_summary", "sla_summary", "analyst_brief", "customer_response_draft", "timeline"]
+            required_keys = ["policy_summary", "sla_summary", "analyst_brief", "customer_response_draft", "timeline", "evidence_summary", "risk_explanation", "recommended_questions_for_analyst", "allowed_decisions"]
             missing = [k for k in required_keys if k not in export]
             if not missing:
-                print("PASS (All required summaries included)")
+                brief = export.get("analyst_brief", "")
+                if "Deterministic brief generated for analyst" in brief:
+                    print("FAIL: Analyst brief is the old generic one.")
+                    all_passed = False
+                else:
+                    print("PASS (All required summaries included and brief is dynamic)")
             else:
                 print("FAIL: Missing keys", missing)
                 all_passed = False

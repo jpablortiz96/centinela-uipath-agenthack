@@ -4,12 +4,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnRunApiDown = document.getElementById('btn-run-api-down');
     const btnApprove = document.getElementById('btn-approve');
     const btnExport = document.getElementById('btn-export');
+    const rawJsonHeader = document.getElementById('raw-json-header');
 
     // Attach events
     btnRefresh.addEventListener('click', fetchCases);
     btnRunApiDown.addEventListener('click', runApiDownCase);
     btnApprove.addEventListener('click', approveLatest);
     btnExport.addEventListener('click', exportLatest);
+    rawJsonHeader.addEventListener('click', () => {
+        const content = document.getElementById('raw-json-content');
+        if (content.style.display === 'none') {
+            content.style.display = 'block';
+            rawJsonHeader.querySelector('span').textContent = '▲';
+        } else {
+            content.style.display = 'none';
+            rawJsonHeader.querySelector('span').textContent = '▼';
+        }
+    });
 
     // Initial load
     fetchCases();
@@ -32,6 +43,8 @@ async function fetchCases() {
                 <td>${c.status}</td>
                 <td>${c.current_stage}</td>
                 <td><span class="${getRiskColor(c.risk_level)}">${c.risk_level || '--'}</span></td>
+                <td>${c.human_decision || '--'}</td>
+                <td>${c.source || '--'}</td>
                 <td><button class="btn btn-small" onclick="viewCase('${c.case_id}')">View</button></td>
             `;
             tbody.appendChild(tr);
@@ -105,8 +118,14 @@ async function exportLatest() {
     window.open('/api/analyst/export-latest', '_blank');
 }
 
+function countRetries(timeline) {
+    if (!timeline || !Array.isArray(timeline)) return 0;
+    return timeline.filter(ev => ev.event_type === 'ReceiverBankRetryAttempted').length;
+}
+
 function updateStatusCards(data) {
     document.getElementById('latest-case-status').textContent = data.status || '--';
+    document.getElementById('latest-case-outcome').textContent = data.status || '--';
     
     const riskEl = document.getElementById('latest-risk-level');
     riskEl.textContent = data.risk_level || '--';
@@ -114,13 +133,30 @@ function updateStatusCards(data) {
     
     document.getElementById('latest-sla-status').textContent = (data.sla_summary && data.sla_summary.sla_status) || '--';
     
-    const reqGate = data.policy_summary ? data.policy_summary.required_human_gate : '--';
+    // Human Gate Logic
     const gateEl = document.getElementById('latest-human-gate');
-    gateEl.textContent = reqGate === true ? 'YES' : (reqGate === false ? 'NO' : '--');
-    if(reqGate === true) gateEl.className = 'status-warn';
-    else gateEl.className = '';
+    let gateStatus = '--';
+    if (data.status === 'waiting_for_human') {
+        gateStatus = 'Required';
+        gateEl.className = 'status-warn';
+    } else if (data.status === 'resolved_by_human' || data.status === 'escalated_to_fraud_ops' || data.status === 'waiting_for_evidence') {
+        gateStatus = 'Applied';
+        gateEl.className = 'status-ok';
+    } else if (data.status === 'auto_resolved') {
+        gateStatus = 'Not required';
+        gateEl.className = '';
+    } else {
+        gateEl.className = '';
+    }
+    gateEl.textContent = gateStatus;
     
-    document.getElementById('latest-retries').textContent = data.retry_attempts !== undefined ? data.retry_attempts : '--';
+    // Retry logic
+    const retries = countRetries(data.timeline);
+    let retryText = retries.toString();
+    if (retries >= 3) {
+        retryText = '3 / 3 (Exhausted)';
+    }
+    document.getElementById('latest-retries').textContent = retryText;
 }
 
 function renderCaseDetail(data) {
@@ -149,6 +185,20 @@ function renderCaseDetail(data) {
 
     // Analyst Brief
     document.getElementById('detail-analyst-brief').innerHTML = data.analyst_brief ? `<p>${data.analyst_brief}</p>` : '<p>No brief available.</p>';
+    document.getElementById('detail-evidence-summary').textContent = data.evidence_summary || '--';
+    document.getElementById('detail-risk-explanation').textContent = data.risk_explanation || '--';
+    
+    const qList = document.getElementById('detail-questions');
+    qList.innerHTML = '';
+    if (data.recommended_questions_for_analyst) {
+        data.recommended_questions_for_analyst.forEach(q => {
+            const li = document.createElement('li');
+            li.textContent = q;
+            qList.appendChild(li);
+        });
+    }
+    
+    document.getElementById('detail-allowed-decisions').textContent = data.allowed_decisions ? data.allowed_decisions.join(', ') : '--';
     
     // Customer Draft
     document.getElementById('detail-customer-draft').innerHTML = data.customer_response_draft ? `<p>${data.customer_response_draft}</p>` : '<p>No draft available.</p>';
@@ -163,8 +213,24 @@ function renderCaseDetail(data) {
         data.timeline.forEach(ev => {
             const type = ev.event_type || 'Unknown';
             let extraClass = '';
-            if (type.includes('Retry')) extraClass = 'retry';
-            if (type.includes('Human')) extraClass = 'human';
+            let badgeHtml = '';
+            
+            if (type.includes('Retry')) {
+                extraClass = 'retry';
+                badgeHtml = '<span class="badge badge-retry">Retry</span>';
+            } else if (type.includes('Human')) {
+                extraClass = 'human';
+                badgeHtml = '<span class="badge badge-human">Human Decision</span>';
+            } else if (type.includes('Resolution')) {
+                extraClass = 'resolution';
+                badgeHtml = '<span class="badge badge-resolution">Resolution</span>';
+            } else if (type.includes('Policy') || type.includes('Stage')) {
+                extraClass = 'policy';
+                badgeHtml = '<span class="badge badge-policy">Policy/Stage</span>';
+            } else if (type.includes('Check') || type.includes('Bank')) {
+                extraClass = 'external';
+                badgeHtml = '<span class="badge badge-external">External Check</span>';
+            }
             
             const timeStr = ev.timestamp ? new Date(ev.timestamp).toLocaleString() : 'N/A';
             
@@ -172,7 +238,7 @@ function renderCaseDetail(data) {
             div.className = `timeline-event ${extraClass}`;
             div.innerHTML = `
                 <small>${timeStr}</small>
-                <strong>${type}</strong>
+                <strong>${type} ${badgeHtml}</strong>
                 <pre>${JSON.stringify(ev.details, null, 2)}</pre>
             `;
             tlEl.appendChild(div);

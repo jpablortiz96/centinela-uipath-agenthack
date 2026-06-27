@@ -113,6 +113,10 @@ def export_case(case_id: str):
             "stage_sla_status": case_data.get("stage_sla_status")
         },
         "analyst_brief": case_data.get("analyst_brief"),
+        "evidence_summary": case_data.get("evidence_summary"),
+        "risk_explanation": case_data.get("risk_explanation"),
+        "recommended_questions_for_analyst": case_data.get("recommended_questions_for_analyst"),
+        "allowed_decisions": case_data.get("allowed_decisions"),
         "customer_response_draft": case_data.get("customer_response_draft"),
         "timeline": audit,
         "limitations_notice": "This is a deterministic runtime for UiPath integration. Not a production banking API."

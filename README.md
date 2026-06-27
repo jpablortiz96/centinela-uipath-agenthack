@@ -41,8 +41,8 @@ To bypass UiPath Integration Services body serialization bugs, you can execute a
 - **Resolution** → `GET /uipath/maestro-approve-latest` (or `-reject-latest`, `-request-more-evidence-latest`, `-escalate-latest`)
 - **Audit Export** → `GET /uipath/maestro-export-latest`
 
-### Analyst Console
-An operational surface for analysts and judges to inspect case state, risk, SLA, policy, retries, and audit trails.
+### Analyst Console v2
+An operational surface for analysts and judges to inspect case state, risk, SLA, policy, retries, and audit trails. Features deterministic case-specific analyst briefs.
 - **Local URL**: [http://127.0.0.1:8070/analyst](http://127.0.0.1:8070/analyst)
 - **Render URL**: [https://centinela-uipath-agenthack.onrender.com/analyst](https://centinela-uipath-agenthack.onrender.com/analyst)
 

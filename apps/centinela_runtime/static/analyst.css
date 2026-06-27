@@ -35,6 +35,9 @@ body {
     border-bottom: 1px solid var(--border-color);
     padding: 20px;
     margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header h1 {
@@ -47,6 +50,64 @@ body {
     color: var(--text-secondary);
     font-size: 0.9rem;
 }
+
+.header-links {
+    display: flex;
+    gap: 10px;
+}
+
+.header-links a {
+    text-decoration: none;
+    color: var(--text-primary);
+    border-radius: 4px;
+    padding: 6px 12px;
+}
+
+.collapsible-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.extra-brief-info {
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid var(--border-color);
+    font-size: 0.9rem;
+}
+.extra-brief-info p {
+    margin-bottom: 5px;
+}
+.extra-brief-info ul {
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+.timeline-event.policy::before {
+    background-color: #8b5cf6;
+}
+.timeline-event.resolution::before {
+    background-color: var(--success);
+}
+.timeline-event.external::before {
+    background-color: #64748b;
+}
+
+.badge {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-left: 10px;
+    background-color: rgba(255,255,255,0.1);
+}
+.badge-retry { background-color: rgba(245, 158, 11, 0.2); color: var(--warning); }
+.badge-human { background-color: rgba(16, 185, 129, 0.2); color: var(--success); }
+.badge-policy { background-color: rgba(139, 92, 246, 0.2); color: #c4b5fd; }
+.badge-resolution { background-color: rgba(16, 185, 129, 0.2); color: var(--success); }
+.badge-external { background-color: rgba(100, 116, 139, 0.2); color: #cbd5e1; }
+
 
 /* Status Cards */
 .status-cards {
