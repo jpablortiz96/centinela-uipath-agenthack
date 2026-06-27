@@ -25,16 +25,30 @@ CENTINELA is not an AI that approves refunds. It is a governed fraud case-manage
 
 ---
 
-## Judge Quick Start — 60 Seconds
+## Judge Evaluation Path
 
-| Step | Open | What to verify | Why it matters |
-| :--- | :--- | :--- | :--- |
-| 1 | [Judge Replay](https://centinela-uipath-agenthack.onrender.com/judge) | Run full replay: API-down case -> retries -> human decision -> audit export | Verifies the full end-to-end lifecycle safely and reproducibly. |
-| 2 | [Analyst Console](https://centinela-uipath-agenthack.onrender.com/analyst) | Inspect priority queue, fraud network, decision simulator | Verifies the operational product surface and intelligence layers. |
-| 3 | [Runtime Health](https://centinela-uipath-agenthack.onrender.com/health) / [OpenAPI](https://centinela-uipath-agenthack.onrender.com/openapi.json) | Verify public API availability | Proves the Runtime API is deployed and responding. |
-| 4 | [UiPath Evidence Pack](docs/UIPATH_EVIDENCE_PACK.md) | Verify Maestro Case and connected cloud debug | Proves real UiPath integration and identifies the scope of execution. |
-| 5 | `evidence/` folder | Verify smoke tests/screenshots/logs | Proves the system passes automated validation tests. |
-| 6 | [Product Feedback](docs/UIPATH_PRODUCT_FEEDBACK.md) | Verify real use of UiPath Labs and documented platform feedback | Demonstrates deep engagement with the UiPath platform and provides valuable product insights. |
+1. **Start with Judge Replay**
+   URL: [https://centinela-uipath-agenthack.onrender.com/judge](https://centinela-uipath-agenthack.onrender.com/judge)
+   *Purpose:* Guided replay of API-down fraud case, retry exhaustion, human decision, and audit export.
+
+2. **Open Analyst Console**
+   URL: [https://centinela-uipath-agenthack.onrender.com/analyst](https://centinela-uipath-agenthack.onrender.com/analyst)
+   *Purpose:* Inspect Priority Queue, Fraud Network, Decision Simulator, Evidence Checklist, and Audit Timeline.
+
+3. **Review UiPath Evidence Pack**
+   Path: `docs/UIPATH_EVIDENCE_PACK.md`
+   *Purpose:* Verify Maestro Case, connected cloud debug, and Integration Service connector evidence.
+
+4. **Review Product Feedback**
+   Path: `docs/UIPATH_PRODUCT_FEEDBACK.md`
+   *Purpose:* Understand the custom connector packaging limitation and body serialization workaround.
+
+5. **Run public smoke tests**
+   ```bash
+   python scripts/smoke_test_centinela_runtime.py --base-url https://centinela-uipath-agenthack.onrender.com
+   python scripts/smoke_test_analyst_console.py --base-url https://centinela-uipath-agenthack.onrender.com
+   python scripts/smoke_test_judge_replay.py --base-url https://centinela-uipath-agenthack.onrender.com
+   ```
 
 ---
 
@@ -78,11 +92,15 @@ CENTINELA solves this through a hybrid agentic architecture:
 
 UiPath Maestro is not decorative in this architecture—it is the authoritative control plane.
 
-*   Maestro models and governs the case lifecycle from start to finish.
-*   Maestro controls stage progression, human tasks, SLAs, and case transitions.
-*   Integration Service connector activities invoke the Runtime API from the case flow during connected debug.
-*   UiPath keeps humans accountable at key decision points.
-*   CENTINELA Runtime is the external coded investigation service/agent that Maestro orchestrates.
+*   Maestro models and governs the case stages, SLAs, human tasks, and transitions.
+*   Integration Service Connector Activity invokes the CENTINELA Runtime API from the case flow.
+*   UiPath keeps humans accountable at key decision points, ensuring financial decisions are strictly governed.
+*   CENTINELA Runtime acts as the deterministic external fraud investigation service/agent that Maestro orchestrates.
+*   The connected flow is validated in cloud debug.
+*   Connected publish is not claimed due to a UiPath Labs packaging limitation.
+
+**Supported Claim:**
+> "UiPath Maestro executed a connected end-to-end cloud debug flow where Investigation, Resolution, and Audit Export interacted with the public CENTINELA Runtime API through Integration Service connector activities."
 
 | UiPath Component | How CENTINELA uses it | Why it matters | Evidence |
 | :--- | :--- | :--- | :--- |
@@ -94,6 +112,34 @@ UiPath Maestro is not decorative in this architecture—it is the authoritative 
 | Studio Web Debug on cloud | Validates connected execution | Proves the connector integration works. | `evidence/manual-screenshots/step28_maestro_end_to_end_connected_debug.png` |
 | Orchestrator / Solutions | Deployment target | Proves platform readiness. | `evidence/manual-screenshots/step12_orchestrator_deployment_active.png` |
 | Published Maestro Case v1.0.0 | The published definition of the case | Proves completion of the core Maestro design. | `evidence/manual-screenshots/step12_maestro_case_published.png` |
+
+---
+
+## UiPath Execution Evidence Gallery
+
+![UiPath Maestro Case stages](evidence/manual-screenshots/step8_maestro_case_stages.png)
+*UiPath Maestro Case with dynamic fraud dispute stages: Intake, Evidence Review, Investigation, Human Decision, Resolution, and Audit Export.*
+
+![Connector Activity](evidence/manual-screenshots/step20_maestro_connector_successful_debug.png)
+*Investigation stage connected to CENTINELA Runtime API through UiPath Integration Service Connector Activity.*
+
+![UiPath Maestro connected debug](evidence/manual-screenshots/step28_maestro_end_to_end_connected_debug.png)
+*Connected cloud debug execution completed successfully inside UiPath Maestro.*
+
+![Published Maestro Case](evidence/manual-screenshots/step12_maestro_case_published.png)
+*Published Maestro Case v1.0.0 available in UiPath environment.*
+
+![Connected publish limitation](evidence/manual-screenshots/step21_connected_publish_connector_packaging_error.png)
+*Connected publish limitation captured as product feedback: custom connector packaging/export issue in UiPath Labs.*
+
+## What the UiPath screenshots prove
+
+| Screenshot | What it proves | Why it matters |
+| :--- | :--- | :--- |
+| Maestro Case stages | UiPath models the fraud case lifecycle | Track 1 alignment |
+| Connector Activity | UiPath invokes Runtime API from the case flow | UiPath is orchestration layer |
+| Debug Successful | Connected execution works in UiPath cloud debug | Real execution evidence |
+| Publish limitation | Connected publish blocked by Labs packaging issue | Honest product feedback |
 
 ---
 
@@ -334,6 +380,8 @@ CENTINELA Runtime is deployed continuously on Render.
 
 ## Known Limitation
 
+> **No Overclaims:** CENTINELA does not claim production banking readiness, real customer fraud detection, autonomous refund approval, or connected solution publish. It does claim a public Runtime API, working Analyst Console, Judge Replay, published Maestro Case v1.0.0, and connected UiPath cloud debug execution.
+
 **Connected publish limitation:** The connected Maestro + custom connector flow runs successfully in cloud debug. Publishing the connected version is currently blocked by a UiPath Labs custom connector packaging/export limitation. The published Maestro Case v1.0.0, connected debug evidence, public Runtime API, Analyst Console, and Judge Replay remain available for evaluation.
 
 This limitation is meticulously documented in `docs/UIPATH_PRODUCT_FEEDBACK.md` with reproduction context, impact, and suggested improvements. We utilized no-body `GET` endpoints to ensure robust execution within the Labs debug environment, bypassing current Integration Service body serialization issues.
@@ -411,25 +459,6 @@ Production Path (Future State):
 *   PII controls and masking.
 *   Rate limiting and monitoring.
 *   UiPath production tenant deployment using standard, non-Labs connector packaging.
-
----
-
-## Submission Checklist
-
-*   [x] Public GitHub repo
-*   [x] MIT License
-*   [x] README
-*   [x] Public Runtime API
-*   [x] Judge Replay
-*   [x] Analyst Console
-*   [x] OpenAPI
-*   [x] UiPath Evidence Pack
-*   [x] Product Feedback
-*   [x] Smoke tests
-*   [x] Screenshots
-*   [ ] Demo video pending
-*   [ ] Deck pending
-*   [ ] Devpost text pending
 
 ---
 
