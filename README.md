@@ -41,6 +41,11 @@ To bypass UiPath Integration Services body serialization bugs, you can execute a
 - **Resolution** → `GET /uipath/maestro-approve-latest` (or `-reject-latest`, `-request-more-evidence-latest`, `-escalate-latest`)
 - **Audit Export** → `GET /uipath/maestro-export-latest`
 
+### Analyst Console
+An operational surface for analysts and judges to inspect case state, risk, SLA, policy, retries, and audit trails.
+- **Local URL**: [http://127.0.0.1:8070/analyst](http://127.0.0.1:8070/analyst)
+- **Render URL**: [https://centinela-uipath-agenthack.onrender.com/analyst](https://centinela-uipath-agenthack.onrender.com/analyst)
+
 ## Setup Instructions
 1. Clone the repository.
 2. Ensure you have Python 3 installed.

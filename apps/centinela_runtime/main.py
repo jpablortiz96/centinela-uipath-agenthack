@@ -1,5 +1,7 @@
 import uuid
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from typing import Any, Dict, Optional
 
 from .schemas import (
@@ -16,6 +18,10 @@ app = FastAPI(
     description="Deployable backend runtime for UiPath Maestro Case integration.",
     version="1.0.0"
 )
+
+import os
+static_dir = os.path.join(os.path.dirname(__file__), "static")
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 @app.on_event("startup")
 def startup_event():
@@ -306,3 +312,55 @@ def uipath_maestro_api_down_default():
         **compact,
         "message": msg
     }
+
+# Analyst Console Endpoints
+
+@app.get("/analyst", response_class=HTMLResponse)
+def analyst_console():
+    with open(os.path.join(static_dir, "analyst.html"), "r") as f:
+        return f.read()
+
+@app.get("/api/analyst/cases")
+def analyst_get_cases():
+    cases = get_all_cases()
+    # newest first
+    reversed_cases = reversed(cases)
+    result = []
+    for c in reversed_cases:
+        result.append({
+            "case_id": c.get("case_id"),
+            "status": c.get("status"),
+            "current_stage": c.get("current_stage"),
+            "customer_id": c.get("customer_id"),
+            "transaction_id": c.get("transaction_id"),
+            "amount_cop": c.get("amount_cop"),
+            "risk_score": c.get("risk_score"),
+            "risk_level": c.get("risk_level"),
+            "human_decision": c.get("human_decision"),
+            "created_at": c.get("created_at"),
+            "source": c.get("source")
+        })
+    return result
+
+@app.get("/api/analyst/cases/{case_id}")
+def analyst_get_case(case_id: str):
+    return export_case(case_id)
+
+@app.get("/api/analyst/latest")
+def analyst_get_latest():
+    cases = get_all_cases()
+    if not cases:
+        raise HTTPException(status_code=404, detail="No cases found")
+    return export_case(cases[-1]["case_id"])
+
+@app.get("/api/analyst/export-latest")
+def analyst_export_latest():
+    return uipath_maestro_export_latest()
+
+@app.get("/api/analyst/run-api-down-case")
+def analyst_run_api_down():
+    return uipath_maestro_api_down_default()
+
+@app.get("/api/analyst/approve-latest")
+def analyst_approve_latest():
+    return uipath_maestro_approve_latest()

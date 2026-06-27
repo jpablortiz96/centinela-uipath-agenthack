@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CENTINELA Analyst Console</title>
+    <link rel="stylesheet" href="/static/analyst.css">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>CENTINELA Analyst Console</h1>
+            <p>Fraud Dispute Case Operations | Runtime connected to UiPath Maestro</p>
+        </div>
+    </header>
+    
+    <main class="container">
+        <!-- Status Cards -->
+        <section class="status-cards">
+            <div class="card">
+                <h3>Runtime Status</h3>
+                <p id="runtime-status" class="status-ok">Online</p>
+            </div>
+            <div class="card">
+                <h3>Latest Case Status</h3>
+                <p id="latest-case-status">--</p>
+            </div>
+            <div class="card">
+                <h3>Risk Level</h3>
+                <p id="latest-risk-level">--</p>
+            </div>
+            <div class="card">
+                <h3>SLA Status</h3>
+                <p id="latest-sla-status">--</p>
+            </div>
+            <div class="card">
+                <h3>Human Gate Required</h3>
+                <p id="latest-human-gate">--</p>
+            </div>
+            <div class="card">
+                <h3>Retry Attempts</h3>
+                <p id="latest-retries">--</p>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <section class="actions">
+            <button id="btn-refresh" class="btn">Refresh Cases</button>
+            <button id="btn-run-api-down" class="btn btn-warning">Run API-down Fraud Case</button>
+            <button id="btn-approve" class="btn btn-success">Approve Latest Case</button>
+            <button id="btn-export" class="btn btn-secondary">Export Latest Audit</button>
+        </section>
+
+        <div class="main-layout">
+            <!-- Left Column: Case List -->
+            <div class="left-col">
+                <section class="case-list-section">
+                    <h2>Latest Cases</h2>
+                    <div class="table-container">
+                        <table id="cases-table">
+                            <thead>
+                                <tr>
+                                    <th>Case ID</th>
+                                    <th>Status</th>
+                                    <th>Stage</th>
+                                    <th>Risk</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cases-body">
+                                <!-- Populated by JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Case Details -->
+            <div class="right-col">
+                <section class="case-detail-section" id="case-detail-view" style="display: none;">
+                    <h2>Selected Case Detail: <span id="detail-case-id"></span></h2>
+                    
+                    <div class="detail-grid">
+                        <div class="detail-panel">
+                            <h3>Overview</h3>
+                            <p><strong>Stage:</strong> <span id="detail-stage"></span></p>
+                            <p><strong>Status:</strong> <span id="detail-status"></span></p>
+                            <p><strong>Risk Score:</strong> <span id="detail-risk-score"></span></p>
+                            <p><strong>Risk Level:</strong> <span id="detail-risk-level"></span></p>
+                            <p><strong>Recommended Action:</strong> <span id="detail-recommended"></span></p>
+                            <p><strong>Human Decision:</strong> <span id="detail-human-decision"></span></p>
+                            <p><strong>SLA Status:</strong> <span id="detail-sla-status"></span></p>
+                        </div>
+                        
+                        <div class="detail-panel">
+                            <h3>Policy Summary</h3>
+                            <div id="detail-policy-summary"></div>
+                        </div>
+                    </div>
+
+                    <div class="detail-panel analyst-brief">
+                        <h3>Analyst Brief</h3>
+                        <div id="detail-analyst-brief"></div>
+                    </div>
+
+                    <div class="detail-panel customer-draft">
+                        <h3>Customer Response Draft</h3>
+                        <div id="detail-customer-draft"></div>
+                    </div>
+
+                    <div class="detail-panel">
+                        <h3>Audit Timeline</h3>
+                        <div class="timeline" id="detail-timeline"></div>
+                    </div>
+
+                    <div class="detail-panel">
+                        <h3>Raw JSON Export</h3>
+                        <pre id="detail-raw-json"></pre>
+                    </div>
+                </section>
+                
+                <section id="no-case-selected" class="empty-state">
+                    <p>Select a case to view details or click Refresh.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="/static/analyst.js"></script>
+</body>
+</html>
